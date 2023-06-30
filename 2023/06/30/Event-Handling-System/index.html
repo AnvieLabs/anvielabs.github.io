@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="infosec, cybersec, security, reverse-engineering, comapny, anvielabs, anvie, antivirus">
+    
+    <meta name="author" content="The AnvieLabs CoreTeam">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://anvielabs.github.io/2023/06/30/event-handling-system/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="Back StoryAnvie is building it’s own GUI library after trying some already present libraries in the market. There are different reasons for each library to be rejected from our choice. Some have :  go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="User Interface &amp; Event Handling System">
+<meta property="og:url" content="http://anvielabs.github.io/2023/06/30/Event-Handling-System/index.html">
+<meta property="og:site_name" content="Anvie Labs">
+<meta property="og:description" content="Back StoryAnvie is building it’s own GUI library after trying some already present libraries in the market. There are different reasons for each library to be rejected from our choice. Some have :  go">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://anvielabs.github.io/images/logo.png">
+<meta property="article:published_time" content="2023-06-30T10:59:14.000Z">
+<meta property="article:modified_time" content="2023-06-30T14:18:58.145Z">
+<meta property="article:author" content="Anvie Labs">
+<meta property="article:tag" content="design-decision">
+<meta property="article:tag" content="urumi">
+<meta property="article:tag" content="development">
+<meta property="article:tag" content="events">
+<meta property="article:tag" content="system">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://anvielabs.github.io/images/logo.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <!--- Page Info-->
+    
+    <title>
+        
+            User Interface &amp; Event Handling System -
+        
+        Anvie Labs
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"anvielabs.github.io","root":"/","language":"en","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/shooting-star-wall.svg","dark":"/images/forest-dark-wall.jpg"},"title":"Anvie Labs Technical Blog","subtitle":{"text":["Welcome to our Techical Blog","Anvie is in it's very early stages of development","Read about our technical desgin decisions here"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":"Balanosima","url":"https://fonts.google.com/share?selection.family=Belanosima"},"social_links":{"enable":false,"links":{"github":"https://github.com/AnvieLabs","instagram":null,"zhihu":null,"twitter":"https://twitter.com/AnvieLabs","email":"anvielabs@gmail.com"}}},"plugins":{"feed":{"enable":true},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":true,"version":"1.0.5"}},"version":"2.2.1","navbar":{"auto_hide":true,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Anvie Labs":"/about","GitHub":"https://github.com/AnvieLabs"}},"Links":{"icon":"fa-regular fa-link","submenus":{"LinkedIn":"https://linkedin.com/company/AnvieLabs","Twitter":"https://twitter.com/AnvieLabs","Mastodon":"https://mastodon.social/@AnvieLabs"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":4},"tags":{"enable":true,"limit":4},"articles":null,"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Lead"]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":true,"title":"More from CoreTeam","limit":4,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"footerStart":"2023/6/30 07:00:00"};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    Global.data_config = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Anvie Labs" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/logo.png">
+                </a>
+            
+            <a class="logo-title" href="/">
+                
+                Anvie Labs
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        ARCHIVES
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ANVIE LABS
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/AnvieLabs">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-link"></i>
+                                        
+                                        LINKS&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://linkedin.com/company/AnvieLabs">LINKEDIN
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://twitter.com/AnvieLabs">TWITTER
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://mastodon.social/@AnvieLabs">MASTODON
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                ARCHIVES
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ANVIE LABS</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/AnvieLabs">GITHUB</a>
+                            </li>
+                        
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-link"></i>
+                                
+                                LINKS&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://linkedin.com/company/AnvieLabs">LINKEDIN</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://twitter.com/AnvieLabs">TWITTER</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://mastodon.social/@AnvieLabs">MASTODON</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">User Interface &amp; Event Handling System</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/avatar.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">The AnvieLabs CoreTeam</span>
+                            
+                                <span class="author-label">Lv1</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-06-30 16:29:14</span>
+        <span class="mobile">2023-06-30 16:29</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-06-30 19:48:58</span>
+            <span class="mobile">2023-06-30 19:48</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/urumi/">urumi</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/design-decision/">design-decision</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/urumi/">urumi</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/development/">development</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/events/">events</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/system/">system</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="Back-Story"><a href="#Back-Story" class="headerlink" title="Back Story"></a>Back Story</h1><p>Anvie is building it’s own GUI library after trying some already present libraries in the market. There are different reasons for each library to be rejected from our choice. Some have :</p>
+<ul>
+<li>good structure, but lack features</li>
+<li>many features but lack any type of structure</li>
+<li>has both good features and many features but lack a good and less restrictive license</li>
+</ul>
+<p>… and there are many but these are what came out from top of head. We prefer a retained mode GUI over an immediate one for some other things that we’re planning in future. </p>
+<h2 id="Expectations"><a href="#Expectations" class="headerlink" title="Expectations"></a>Expectations</h2><p>We obviously don’t aim for our GUI lib (we call it <strong>Urumi</strong>), to be full of features, but we aim for :</p>
+<ul>
+<li>presence of required features (like good looking and working widgets, cross-platform etc…)</li>
+<li>a well structured library with plug and play type design, and </li>
+<li>best performance that we can extract from it.</li>
+</ul>
+<p>One thing we don’t want to compromise is with performance. We want to make best design decisions that lead to optimal performance, but also maintaining a balance towards maintainability and usability.</p>
+<h1 id="Current-Desgin-Decisions"><a href="#Current-Desgin-Decisions" class="headerlink" title="Current Desgin Decisions"></a>Current Desgin Decisions</h1><p><strong>Urumi</strong> (pronouced : <strong>ou-ru-me</strong>) is using <code>Vulkan</code> for rendering it’s UI. We’ve seen that popular GUI libraries provide same look and feel across any platform then render on. Take Qt and DearImGUI for example. They both are quite good in what they do!</p>
+<h2 id="The-Graphics-Module"><a href="#The-Graphics-Module" class="headerlink" title="The Graphics Module"></a>The Graphics Module</h2><p>Alongside our <code>UI</code> module, we’re working on our <code>Graphics</code> module that’ll support both 3D, and 2D rendering as well as rendering the UI itself on top. The current aim is to desgin the Graphics module in such a way that it can completely hide the Vulkan layer from User Application and allows 3D rendering from the start without much bootstrap code (30-40 lines). If needed, User Application can create it’s own renderer instance and get access to all already setup Vulkan objects and then make it’s own choices regarding rendering.</p>
+<h3 id="Choice-Of-Rendering-API"><a href="#Choice-Of-Rendering-API" class="headerlink" title="Choice Of Rendering API"></a>Choice Of Rendering API</h3><p>Well obviously, this needs to be Vulkan. With modern rendering APIs like Vulkan, Metal, D3D13 etc… in market, you have to be up to date with technology. While using APIs like OpenGL would’ve been a lot easier, we find it hard to convice ourselves to use it. Moral issues again!</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/logo.png"
+                      alt="Triangle" title="Our first triangle rendered in Urumi"
+                ></p>
+<p>This is our first triangle rendered in Urumi. It took around 1400 lines of code just to draw this properly! It can be done in about half of that, but whats the fun in that 😁?</p>
+<h3 id="Choice-Of-Language"><a href="#Choice-Of-Language" class="headerlink" title="Choice Of Language"></a>Choice Of Language</h3><p>Development began sometime around May 20th, 2023 and Graphics module will get very radical changes before this year end. We first decided to use <code>C</code> to create Urumi but we hit some barrier and moral issues after a few weeks. The fact  that our core developer <a class="link"   target="_blank" rel="noopener" href="https://github.com/brightprogrammer" >@brightprogrammer <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> didn’t like is that pointers aren’t type safe, so when creating arrays you always have to keep track of what type of pointer it is. Some libraries manage this problem very well but we had to make a choice and we chose <code>C++</code>. Between having to bootstrap Vulkan and choosing to write a new typesafe containers (yes we found a very hacky and poorly maintainable solution), we chose to focus on setting up Vulkan first.</p>
+<p>Although, one thing we crave is lesser build time, but we obviosuly can’t have everything we need at one place. It takes around 2-3 minutes to finish our workflows file!</p>
+<h3 id="Renderer-Structure"><a href="#Renderer-Structure" class="headerlink" title="Renderer Structure"></a>Renderer Structure</h3><p>Like others, we also started with simple <code>VulkanHelloTriangle</code> application by following tutorials available on sites and help from servers :</p>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://vulkan-tutorial.com/" >vulkan-tutorial <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> by <a class="link"   target="_blank" rel="noopener" href="https://github.com/Overv" >Alexander Overvoorde <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://vkguide.dev/" >vkguide <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> by <a class="link"   target="_blank" rel="noopener" href="https://github.com/vblanco20-1/" >V. Blanco <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://discord.gg/JZxUu6gysM" >Official Vulkan Discord <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+</ul>
+<p>But now the Renderer class’s structure is bit more complex. There are lots of things to be changed</p>
+<p>We have separate classes&#x2F;structs for basic Vulkan handles :</p>
+<ul>
+<li><code>VkInstace</code> is wrapped into a global singleton object <code>Instance</code> with lazy initialization. Once you call <code>Instance::Get()</code>, if wrapped vulkan handle is <code>VK_NULL_HANDLE</code> (i.e, not yet created) then it’s created and a <code>VkInstance</code> will be returned. But that’s also being wrapped around to increase ease of use.</li>
+</ul>
+<p>Something like :</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Instance</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Get Vulkan Instance.</span></span><br><span class="line"><span class="comment">     * @return Created Vulkan Instance.</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="type">static</span> FORCE_INLINE VkInstance <span class="title">Get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(mh_instance == VK_NULL_HANDLE) &#123;</span><br><span class="line">            <span class="built_in">Create</span>();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> mh_instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// cannot be constructed or destroyed</span></span><br><span class="line">    <span class="built_in">Instance</span>() = <span class="keyword">delete</span>;</span><br><span class="line">    <span class="built_in">Instance</span>(<span class="type">const</span> Instance&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    ~<span class="built_in">Instance</span>() = <span class="keyword">delete</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p><code>VkPhysicalDevice</code> is wrapped into <code>Gpu</code> which provides easy interface to query information like memory properties, device features etc…</p>
+</li>
+<li><p><code>VkDevice</code> is wrapped into <code>Device</code>. It’s main goal is to provide a nice interface for device memory management. For the moment it supports creating device buffers and uploading that vertex data to device buffers.</p>
+</li>
+<li><p><code>VkSwapchainKHR</code> is wrapped into <code>Swapchain</code> that’ll store swapchain images and provide interface to control properties like double or triple buffering, begin and end rendering, clear images etc…</p>
+</li>
+</ul>
+<p>So, for example, when recording rendering commands into VkCommandBuffer, we can do something like : </p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Renderer::Draw</span><span class="params">(<span class="type">const</span> RenderPass&amp; rp, <span class="type">const</span> Device::Buffer&amp; db, Size num_vertices)</span> </span>&#123;</span><br><span class="line">    Uint32 image_idx;</span><br><span class="line">    VkCommandBuffer h_cmd;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// begin rendering</span></span><br><span class="line">    <span class="keyword">if</span>(!m_swapchain.<span class="built_in">NextFrame</span>(image_idx, h_cmd)) &#123;</span><br><span class="line">        <span class="built_in">RecreateSwapchain</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* record your draw commands here.. */</span></span><br><span class="line">    <span class="comment">/* begin renderpass */</span></span><br><span class="line">    <span class="comment">/* bind pipelines, vertex data, uniforms etc... */</span></span><br><span class="line">    <span class="comment">/* draw */</span></span><br><span class="line">    <span class="comment">/* end renderpass */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// ende frame and submit for presentation</span></span><br><span class="line">    <span class="keyword">if</span>(!m_swapchain.<span class="built_in">EndFrame</span>(image_idx, h_cmd) || mb_window_resized) &#123;</span><br><span class="line">        <span class="built_in">RecreateSwapchain</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p><code>VkPipeline</code> and <code>VkPipelineLayout</code> is wrapped around <code>Effect</code> that takes multiple <code>VkShaderModule</code>(s) wrapped around <code>Shader</code> structs. This however might change hugely in future so I won’t desribe it here.</p>
+</li>
+<li><p><code>VkRenderPass</code> is wrapped around <code>RenderPass</code> that takes multiple <code>Subpass</code> structs. All information is first provided to RenderPass before submitting it to Renderer for <code>VkRenderPass</code> creation. Each <code>RenderPass</code> get’s their own set of <code>VkImageView</code> handles and <code>VkFramebuffer</code>. This design seems quite intuitive at the moment, but it might also change in future so I won’t be describing it here.</p>
+</li>
+</ul>
+<h2 id="The-Event-System"><a href="#The-Event-System" class="headerlink" title="The Event System"></a>The Event System</h2><p>The main goal of this post is to describe the Event system. Why? Well because :</p>
+<ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://github.com/brightprogrammer" >@brightprogrammer <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> is building this for the first time, so design ideas are important. You don’t get to create and talk about new stuffs everyday!</li>
+<li>advocated a lot about our design choices to some experienced devs in a discord server</li>
+<li>we need to keep track of our design decisions.</li>
+<li>in future if we change our design implementation, we need to be able to show why we did that.</li>
+</ul>
+<h3 id="What-Are-Events"><a href="#What-Are-Events" class="headerlink" title="What Are Events?"></a>What Are Events?</h3><p>Events are like notifications you recieve on your phone or desktop. When you get a notification, you either react to it or you let it pass. Whatever you do, it depends on you (the event handler) and not on the notification sender app (the event dispatcher)</p>
+<h3 id="Why-Events"><a href="#Why-Events" class="headerlink" title="Why Events?"></a>Why Events?</h3><p>When rendering UI using a Rendering API, you can choose either to constantly keep drawing to screen (Immediate Mode Rendering) or you can choose to render and upadte only necessary parts of screen only when user interacts with your application in some way (user generates events!). This is called Retained Mode Rendering. There is more to it, however, this should be enough to get started.</p>
+<p>So for eg: In when you render all the time, non stop, your event dispatcher loop looks like this : </p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Bool b_running = <span class="literal">true</span>;</span><br><span class="line">    Event event;</span><br><span class="line">    <span class="keyword">while</span>(b_running) &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">GetEventFromQueue</span>(event) != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// keep getting events and processing them one by one</span></span><br><span class="line">            <span class="keyword">if</span> (event.type == Event::Type::Quit) &#123;</span><br><span class="line">                b_running = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">DrawUi</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>This loop is always active and will keep your CPU as well as GPU busy all the time. While this is the technique opted by Games and nowadays Game Engines too! This can be relatively more power consuming. There’s also no distinction between events and handlers, everything is handled as soon as it happens. This can be responsive! Yes! This too can be separated into event handlers and dispatchers however!</p>
+<p>In a retained mode UI, you don’t process event when user is not interacting with the window. In above example, <code>DrawUI()</code> will be called whether or not user is interacting with the window or not (which is required in games because they need to keep updating world no matter what). A retained mode render loop might look like this :</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Bool b_running = <span class="literal">true</span>;</span><br><span class="line">    Event event;</span><br><span class="line">    <span class="keyword">while</span>(b_running) &#123;</span><br><span class="line">        <span class="comment">// this can be blocking the main thread</span></span><br><span class="line">        <span class="comment">// if there&#x27;s no user interaction</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">GetUserCurrentInteraction</span>(event)) &#123;</span><br><span class="line">            <span class="comment">// keep getting events and processing them one by one</span></span><br><span class="line">            <span class="keyword">if</span> (event.type == Event::Type::Quit) &#123;</span><br><span class="line">                b_running = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">DrawUi</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>Due to just that one change, in blocking vs non-blocking of main thread, rendering approach changes. Usually a Retained Mode UI also maintains a View-Tree that’s used to diff between previous view tree and new view tree whenever there’s a view change. If two view tress differ by a large amount they need to be redrawn completely! But only when it changes! </p>
+<p>Example of a view tree (not complete) :</p>
+<pre class="mermaid">graph TD
+W{Window}
+W --> Mu[Menu]
+W --> Pl[Left Panel] 
+W --> Pr[Right Panel]
+
+Mu --> MuF[File]
+Mu --> MuS[View]
+Mu --> MuD[Debug]
+Mu --> MuE[Editor]
+Mu --> MuSe[Settings]
+Mu --> MuA[About]
+
+MuF --> MuFOp[Open]
+MuF --> MuFCl[Close]
+MuF --> MuFSa[Save]
+MuF --> MuFQu[Quit]
+
+Pl --> PlTop[Project View]
+Pl --> PlMid[Resources]
+Pl --> PlBot[Command Panel]
+
+Pr --> PrTop[Graph View]
+Pr --> PrBot[Code Editor]</pre>
+
+
+
+<p>One more reason for using events rather than handling all in same while loop is because it allows separation of handler code from dispatcher code. This separation allows the Events system to be extendable by other types of events. This can be any type of event :</p>
+<ul>
+<li>A new device is attached to host</li>
+<li>A new user connected to your server</li>
+<li>Someone clicked a button </li>
+<li>User trying to close the application and you don’t want the application to be closed because you are EVIL! XD<br>… and so on…</li>
+</ul>
+<p>We want handling and dispatching of events to be extendable. This will also allow us to dispatch events from anywhere in the program and not just in the dispatch loop!</p>
+<h3 id="Event-Handler-Tree"><a href="#Event-Handler-Tree" class="headerlink" title="Event Handler Tree"></a>Event Handler Tree</h3><p>Just like view tree, there’s an event handler tree in Urumi. It’s created automatically so you don’t need to worry about that! You don’t even need to write code for this tree.</p>
+<p>Event handler tree is exactly like view tree. The only major difference is the fact that event tree, triggers events and view tree will trigger <code>DrawUi</code> method of it’s children. This way a parent gets to decide whether it’s child will handle an event or draw itself and it’s children onto screen or not.</p>
+<h3 id="Event-Manager-Class"><a href="#Event-Manager-Class" class="headerlink" title="Event Manager Class"></a>Event Manager Class</h3><p>To be able to handle an event, a handler function requires some data. For this data to be passed around, we can either create a huge monolothic <code>EventData</code> data structure with lots of unions of data structures of different types or we can seggregate different event types into different event structures. We chose the latter approach because that’s the one which sounds more modular and maintainable to us. </p>
+<p>This has some barriers though. Since data structure containing event data is different for each event type, their handler function signatures will also differ.</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// for a WindowEvent</span></span><br><span class="line"><span class="comment">// Signature is void(Window::**)(const WindowEvent&amp;)</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Window::OnResize</span><span class="params">(<span class="type">const</span> WindowEvent&amp; w)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">UpdateSize</span>(w.width, w.height);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// for a KeyboardEvent</span></span><br><span class="line"><span class="comment">// Signature is void(Frame::**)(const KeyboardEvent&amp;)</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Frame::OnKeyDown</span><span class="params">(<span class="type">const</span> KeyboardEvent&amp; k)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span>(<span class="built_in">IsQuitKey</span>(k.key)) &#123;</span><br><span class="line">         <span class="built_in">Shutdown</span>();</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// and so on...</span></span><br></pre></td></tr></table></figure></div>
+
+<p>Notice that not only event type is changing in parameter, but also the class is changing. To handle this we had to implement a template class that can cover these cases :</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> EventT&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">EventManager</span> &#123;</span><br><span class="line">    <span class="comment">/// store event ID type in given EventT</span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> EventT::ID EventID;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// define Internal event Handler function Type</span></span><br><span class="line">    <span class="keyword">typedef</span> std::function&lt;<span class="type">void</span>(<span class="type">const</span> EventT&amp;)&gt; IHandlerT;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Manager Function</span></span><br><span class="line"><span class="comment">     * @param event Dispatch given event to corresponding handler.</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Dispatch</span><span class="params">(<span class="type">const</span> EventT&amp; event)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// get beginning and ending iterator for bucket with given id</span></span><br><span class="line">        <span class="keyword">auto</span> id_bucket = mumap_handlers.<span class="built_in">bucket</span>(event.id);</span><br><span class="line">        <span class="keyword">auto</span> beg = mumap_handlers.<span class="built_in">begin</span>(id_bucket);</span><br><span class="line">        <span class="keyword">auto</span> end = mumap_handlers.<span class="built_in">end</span>(id_bucket);</span><br><span class="line">        <span class="comment">// dispatch event to all event handlers in the bucket</span></span><br><span class="line">        <span class="keyword">while</span>(beg != end) &#123;</span><br><span class="line">            beg++-&gt;<span class="built_in">second</span>(event);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Connect given listener and handler to event dispatcher.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * @tparam ListenerT Type of derived @c EventListener object.</span></span><br><span class="line"><span class="comment">     * @tparam EHandlerT External Handler Type, i.e. type-signature</span></span><br><span class="line"><span class="comment">     * of function without ListenerT object bound to Event Handler.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * @param id Event::ID to connect against.</span></span><br><span class="line"><span class="comment">     * @param fn_handler External event handler function. By External we</span></span><br><span class="line"><span class="comment">     * mean the fact that initially we only have address and signature of</span></span><br><span class="line"><span class="comment">     * function and the function itself is not bound to the actual listener.</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> ListenerT&gt;</span></span><br><span class="line"><span class="function">    <span class="type">void</span> <span class="title">Connect</span><span class="params">(EventID id, <span class="type">void</span> (ListenerT::*pfn_handler)(<span class="type">const</span> EventT&amp;), ListenerT&amp; listener)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// bind event handler with it&#x27;s listener</span></span><br><span class="line">        IHandlerT fn_listener_bound_handler = std::<span class="built_in">bind_front</span>(pfn_handler, &amp;listener);</span><br><span class="line">        <span class="comment">// register to parent event dispatcher</span></span><br><span class="line">        mumap_handlers[id] = fn_listener_bound_handler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// this map here results in a tree like dispatch system</span></span><br><span class="line">    std::unordered_map&lt;<span class="keyword">typename</span> EventT::ID, IHandlerT&gt; mumap_handlers;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ADD_EVENT_MANAGER(m) \</span></span><br><span class="line"><span class="meta">    using m::Connect;      \</span></span><br><span class="line"><span class="meta">    using m::Dispatch;     \</span></span><br></pre></td></tr></table></figure></div>
+
+<p>To connect to an event of specific type, you call <code>Connect(...)</code> and to dispatch an event to your children, you call <code>Dispatch(...)</code>.</p>
+<h3 id="How-To-Create-A-New-Event-Type"><a href="#How-To-Create-A-New-Event-Type" class="headerlink" title="How To Create A New Event Type?"></a>How To Create A New Event Type?</h3><p>Let’s create a new event called <code>WindowEvent</code>. First we’ll define the data structure that’ll contain the event related data.</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Represents a WindowEvent</span></span><br><span class="line"><span class="comment"> * a single Window Event.</span></span><br><span class="line"><span class="comment"> * Contains data required for processing</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">WindowEvent</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Convert @c SDL_WindowEvent to self type.</span></span><br><span class="line"><span class="comment">     * @param we @c SDL_WindowEvent.</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="built_in">WindowEvent</span>(<span class="type">const</span> SDL_WindowEvent&amp; we) &#123;</span><br><span class="line">        id        = <span class="built_in">static_cast</span>&lt;WindowEvent::ID&gt;(we.event);</span><br><span class="line">        id_window = we.windowID;</span><br><span class="line">        width     = we.data1;   <span class="comment">// can also be treated as xpos</span></span><br><span class="line">        height    = we.data2;   <span class="comment">// can also be treated as ypos</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum class</span> <span class="title class_">ID</span> &#123;</span><br><span class="line">        None           = SDL_WINDOWEVENT_NONE,</span><br><span class="line">        Shown          = SDL_WINDOWEVENT_SHOWN,</span><br><span class="line">        Hidden         = SDL_WINDOWEVENT_HIDDEN,</span><br><span class="line">        Exposed        = SDL_WINDOWEVENT_EXPOSED,</span><br><span class="line">        Moved          = SDL_WINDOWEVENT_MOVED,</span><br><span class="line">        Resized        = SDL_WINDOWEVENT_RESIZED,</span><br><span class="line">        .</span><br><span class="line">        .</span><br><span class="line">        .</span><br><span class="line">        DisplayChanged = SDL_WINDOWEVENT_DISPLAY_CHANGED,</span><br><span class="line">        MAX</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Event type or EventID.</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    ID id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Parent window processing this event must check whether</span></span><br><span class="line"><span class="comment">     * the window ID matches with it&#x27;s SDL_Window instance ID.</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    WindowID id_window;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// width or x-position when window position is changed</span></span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        Uint32 x;</span><br><span class="line">        Uint32 width;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// height or y-position when window position is changed</span></span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        Uint32 y;</span><br><span class="line">        Uint32 height;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<p>Then to create a new event manager corresponding to this event type, we just need to do a typedef (optionally).</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> EventManager&lt;WindowEvent&gt; WindowEventManager;</span><br></pre></td></tr></table></figure></div>
+
+<p>Just that! Now we have our new event handler type. Now to make a class handle this event we just need that class inherit from this class, and guess what? C++ allows multiple inheritance so, one single class can handle different event types at the same time using this approach.</p>
+<p>So, if we were to create a <code>Window</code> struct to represent a window on scree, and we want it to handle different event types, we can do something like this : </p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Window</span> : <span class="keyword">public</span> WindowEventManager,</span><br><span class="line">                <span class="keyword">public</span> KeyboardEventManager,</span><br><span class="line">                <span class="keyword">public</span> MouseEventManager,</span><br><span class="line">                <span class="keyword">public</span> Drawable</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Create a new application.</span></span><br><span class="line"><span class="comment">     * @param name Window title.</span></span><br><span class="line"><span class="comment">     * @param width Initial width of application.</span></span><br><span class="line"><span class="comment">     * @param height Initial height of application.</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="built_in">Window</span>(<span class="type">const</span> String&amp; name, Uint32 width, Uint32 height);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Destroy this window.</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    ~<span class="built_in">Window</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">GetSize</span><span class="params">(Uint32&amp; w, Uint32&amp; h)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetSize</span><span class="params">(Uint32 w, Uint32 h)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">GetName</span><span class="params">(String&amp; name)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetName</span><span class="params">(<span class="type">const</span> String name)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Clear</span><span class="params">(<span class="type">const</span> Vector4f&amp; col)</span> </span>&#123; m_renderer.<span class="built_in">ClearSurface</span>(col); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">AddFrame</span><span class="params">(Frame f)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">RemoveFrame</span><span class="params">(Frame f)</span></span>;</span><br><span class="line"></span><br><span class="line">    Mesh2D m = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Event Handlers</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">OnResize</span><span class="params">(<span class="type">const</span> WindowEvent&amp; w)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">OnKeyDown</span><span class="params">(<span class="type">const</span> KeyboardEvent&amp; k)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">OnMouseMotion</span><span class="params">(<span class="type">const</span> MouseEvent&amp; m)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">FORCE_INLINE <span class="type">void</span> <span class="title">RefreshUi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// clear and draw first frame</span></span><br><span class="line">        <span class="built_in">Clear</span>(<span class="built_in">GetBackgroundColor</span>());</span><br><span class="line">        <span class="built_in">DrawUi</span>();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function">FORCE_INLINE <span class="type">void</span> <span class="title">DrawUi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        m_renderer.<span class="built_in">Draw2D</span>(m);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// private data...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Connect-And-Dispatch"><a href="#Connect-And-Dispatch" class="headerlink" title="Connect And Dispatch"></a>Connect And Dispatch</h3><p>We don’t have many widgets in Urumi at the moment, but as an example, this is how <code>Ui::Window</code> class registers it’s event handlers to a class that represents the Main Application  :</p>
+<div class="highlight-container" data-rel="C++"><figure class="iseeu highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in main.cpp</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Urumi</span> : <span class="keyword">public</span> Ui::Application &#123;</span><br><span class="line">    <span class="built_in">Urumi</span>() : <span class="built_in">Application</span>(<span class="built_in">String</span>(<span class="string">&quot;UrumiTestApp&quot;</span>), <span class="built_in">UR_VERSION</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)),</span><br><span class="line">              <span class="built_in">win</span>(<span class="string">&quot;Urumi&quot;</span>, <span class="number">800</span>, <span class="number">600</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      </span><br><span class="line">        <span class="comment">// connecting to different event handlers</span></span><br><span class="line">        <span class="comment">// of different signature!</span></span><br><span class="line">        <span class="built_in">Connect</span>(KeyboardEvent::ID::KeyDown, &amp;Ui::Window::OnKeyDown, win);</span><br><span class="line">        <span class="built_in">Connect</span>(WindowEvent::ID::Resized, &amp;Ui::Window::OnResize, win);</span><br><span class="line">        <span class="built_in">Connect</span>(MouseEvent::ID::Motion, &amp;Ui::Window::OnMouseMotion, win);</span><br><span class="line"></span><br><span class="line">        win.<span class="built_in">SetBackgroundColor</span>(<span class="built_in">Vector4f</span>(<span class="number">4.f</span>/<span class="number">255</span>, <span class="number">0.f</span>/<span class="number">255</span>, <span class="number">9.f</span>/<span class="number">255</span>, <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">        win.<span class="built_in">RefreshUi</span>();</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::Window win;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<p>There’s no benchmark for this system for the moment, but we sure plan to release once Urumi get’s some good amount of widgets.</p>
+<h2 id="Future-Ideas"><a href="#Future-Ideas" class="headerlink" title="Future Ideas"></a>Future Ideas</h2><ul>
+<li>We’re considering Functional Reactive Programming (FRP) Design. From what we can see at the moment, it’s supposed to be asynchronous from the starts and that’s a very good thing to have.</li>
+<li>Try to provide synchronicity here also. Right now, if an event handler will take some time, it’ll be noticable! Asynchronous handlers will be non blocking.</li>
+<li>We’ll try implementing other systems from suggestions we got, and try to benchmark them and compare with what we already have.</li>
+</ul>
+<p>There will soon be a detailed post on our Graphics module too. Hang tight with us! Great things are coming! They’ll surely take time!</p>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> User Interface &amp; Event Handling System</li>
+        <li><strong>Author:</strong> The AnvieLabs CoreTeam</li>
+        <li><strong>Created at:</strong> 2023-06-30 16:29:14</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-06-30 19:48:58
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://anvielabs.github.io/2023/06/30/Event-Handling-System/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/design-decision/">#design-decision</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/urumi/">#urumi</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/development/">#development</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/events/">#events</a>&nbsp;
+                        </li>
+                    
+                        <li class="tag-item">
+                            <a href="/tags/system/">#system</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+    <div id="giscus-container"></div>
+    <script data-pjax defer>
+        async function loadGiscus() {
+            const giscusConfig = {
+                'src': 'https://giscus.app/client.js',
+                'data-repo': 'AnvieLabs/anvielabs.github.io',
+                'data-repo-id': 'R_kgDOJ128vw',
+                'data-category': 'General',
+                'data-category-id': 'DIC_kwDOJ128v84CXk62',
+                'data-mapping': 'title',
+                'data-strict': '1',
+                'data-reactions-enabled': '1',
+                'data-emit-metadata': '1',
+                'data-theme': 'preferred_color_scheme',
+                'data-lang': 'en',
+                'data-input-position': 'top',
+                'data-loading': 'lazy',
+                'crossorigin': 'anonymous',
+                'async': true
+            }
+            const giscusScript = document.createElement('script');
+            for (const key in giscusConfig) {
+                giscusScript.setAttribute(key, giscusConfig[key]);
+            }
+            document.getElementById('giscus-container').appendChild(giscusScript);
+        }
+        if ('true') {
+            let loadGiscusTimeout = setTimeout(() => {
+                loadGiscus();
+                clearTimeout(loadGiscusTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGiscus);
+        }
+    </script>
+
+
+        
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">User Interface &amp; Event Handling System</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Back-Story"><span class="nav-text">Back Story</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Expectations"><span class="nav-text">Expectations</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Current-Desgin-Decisions"><span class="nav-text">Current Desgin Decisions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Graphics-Module"><span class="nav-text">The Graphics Module</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Choice-Of-Rendering-API"><span class="nav-text">Choice Of Rendering API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Choice-Of-Language"><span class="nav-text">Choice Of Language</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Renderer-Structure"><span class="nav-text">Renderer Structure</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Event-System"><span class="nav-text">The Event System</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#What-Are-Events"><span class="nav-text">What Are Events?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Why-Events"><span class="nav-text">Why Events?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-Handler-Tree"><span class="nav-text">Event Handler Tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-Manager-Class"><span class="nav-text">Event Manager Class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#How-To-Create-A-New-Event-Type"><span class="nav-text">How To Create A New Event Type?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Connect-And-Dispatch"><span class="nav-text">Connect And Dispatch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Future-Ideas"><span class="nav-text">Future Ideas</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">The AnvieLabs CoreTeam</a>
+        </div>
+
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+
+        
+
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+
+        
+        
+    </div>  
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="right-bottom-tools rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                <i class="fa-regular fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+    
+<script src="/js/libs/mermaid.min.js"></script>
+
+    
+<script src="/js/plugins/mermaid.js"></script>
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
