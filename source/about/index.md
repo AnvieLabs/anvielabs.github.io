@@ -28,4 +28,4 @@ Anvie's main product is a security project. We don't want to disclose the full d
 
 # Core Team
 
-For the time being, you can check out the blog,  [CEO](https://brightprogrammer.in) and his [GitHub](https://github.com/brightprogrammer)
+For the time being, you can check out the blog, Our [Founder & CEO](https://brightprogrammer.in) and his [GitHub](https://github.com/brightprogrammer)
