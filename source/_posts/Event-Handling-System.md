@@ -11,6 +11,12 @@ categories:
 - urumi
 ---
 
+
+| Date | Author | Entry |
+|------|--------|-------|
+| 30th June 2023 | Siddharth Mishra | 1 |
+
+
 # Back Story
 
 Anvie is building it's own GUI library after trying some already present libraries in the market. There are different reasons for each library to be rejected from our choice. Some have :
