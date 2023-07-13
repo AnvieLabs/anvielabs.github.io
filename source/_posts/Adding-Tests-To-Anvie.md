@@ -116,6 +116,27 @@ typedef struct elf64_hdr {
 
 Now that `e_ident` part annoys me somethines. It also contains useful data but in an array format. I had to convert it to a struct with same size (`EI_NIDENT`). After editing the struct for both 32 and 64 bit header formats, I needed to be sure whether the size of header before and after edit are same. Now, when you're working with a library, you just can't directly run your program in a `main.c` somewhere in your project. This situation really demands for a test.
 
+After editing the struct looks like this :
+```c
+
+typedef struct PACKED anvie_elf64_file_header_t {
+    AvElfIdentity identity;     /**< Magic number and other info */
+    AvElfType     type;         /**< Object file type */
+    AvElfMachine  machine;      /**< Architecture */
+    AvElfVersion  version;      /**< Object file version */
+    Address64     entry;        /**< Entry point virtual address */
+    Offset64      segment_header_offset; /**< Segment header table file offset */
+    Offset64      section_header_offset; /**< Section header table file offset */
+    Uint32        flags;        /**< Processor-specific flags */
+    Uint16        header_size;  /**< ELF header size in bytes */
+    Uint16        segment_header_entry_size; /**< Segment header table entry size */
+    Uint16        segment_header_count; /**< Segment header table entry count */
+    Uint16        section_header_entry_size; /**< Section header table entry size */
+    Uint16        section_header_count; /**< Section header table entry count */
+    Uint16        section_header_string_index; /**< Section header string table index */
+} AvElf64FileHeader;
+```
+
 While this is just an example where you need tests, the problem was big (in quantity) because I removed `#define`s and added enums and enums also need to be of particular size in order to keep the header struct of specific size. So all for those structs, where enums were added, I needed to check size.
 
 To be honest, I don't have much experience with how to write tests and this is a first baby step. It's also true that I don't have time to only learn just about tests and I also don't want to. I must learn as I work. That's how it's always been and it's been profitable for me and I hope it'll be that way in future.
