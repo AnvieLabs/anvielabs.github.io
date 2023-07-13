@@ -26,7 +26,7 @@
 <meta property="og:description" content="Date Author    July, 13th 2023 Siddharth Mishra   I created a very simple unit testing mechanism to create tests in AnvieUtils and it’s dependent libraries. AnvieUtils is a utility modulefor Anvie">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-07-13T16:25:19.000Z">
-<meta property="article:modified_time" content="2023-07-13T17:15:31.435Z">
+<meta property="article:modified_time" content="2023-07-13T17:21:04.457Z">
 <meta property="article:author" content="Anvie Labs">
 <meta property="article:tag" content="anvie">
 <meta property="article:tag" content="utils">
@@ -400,8 +400,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-07-13 22:45:31</span>
-            <span class="mobile">2023-07-13 22:45</span>
+            <span class="desktop">2023-07-13 22:51:04</span>
+            <span class="mobile">2023-07-13 22:51</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -495,6 +495,9 @@
 <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">elf64_hdr</span> &#123;</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">char</span>    e_ident[EI_NIDENT];    <span class="comment">/* ELF &quot;magic number&quot; */</span></span><br><span class="line">  Elf64_Half e_type;</span><br><span class="line">  Elf64_Half e_machine;</span><br><span class="line">  Elf64_Word e_version;</span><br><span class="line">  Elf64_Addr e_entry;        <span class="comment">/* Entry point virtual address */</span></span><br><span class="line">  Elf64_Off e_phoff;        <span class="comment">/* Program header table file offset */</span></span><br><span class="line">  Elf64_Off e_shoff;        <span class="comment">/* Section header table file offset */</span></span><br><span class="line">  Elf64_Word e_flags;</span><br><span class="line">  Elf64_Half e_ehsize;</span><br><span class="line">  Elf64_Half e_phentsize;</span><br><span class="line">  Elf64_Half e_phnum;</span><br><span class="line">  Elf64_Half e_shentsize;</span><br><span class="line">  Elf64_Half e_shnum;</span><br><span class="line">  Elf64_Half e_shstrndx;</span><br><span class="line">&#125; Elf64_Ehdr;</span><br></pre></td></tr></table></figure></div>
 
 <p>Now that <code>e_ident</code> part annoys me somethines. It also contains useful data but in an array format. I had to convert it to a struct with same size (<code>EI_NIDENT</code>). After editing the struct for both 32 and 64 bit header formats, I needed to be sure whether the size of header before and after edit are same. Now, when you’re working with a library, you just can’t directly run your program in a <code>main.c</code> somewhere in your project. This situation really demands for a test.</p>
+<p>After editing the struct looks like this :</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">PACKED</span> <span class="title">anvie_elf64_file_header_t</span> &#123;</span></span><br><span class="line">    AvElfIdentity identity;     <span class="comment">/**&lt; Magic number and other info */</span></span><br><span class="line">    AvElfType     type;         <span class="comment">/**&lt; Object file type */</span></span><br><span class="line">    AvElfMachine  machine;      <span class="comment">/**&lt; Architecture */</span></span><br><span class="line">    AvElfVersion  version;      <span class="comment">/**&lt; Object file version */</span></span><br><span class="line">    Address64     entry;        <span class="comment">/**&lt; Entry point virtual address */</span></span><br><span class="line">    Offset64      segment_header_offset; <span class="comment">/**&lt; Segment header table file offset */</span></span><br><span class="line">    Offset64      section_header_offset; <span class="comment">/**&lt; Section header table file offset */</span></span><br><span class="line">    Uint32        flags;        <span class="comment">/**&lt; Processor-specific flags */</span></span><br><span class="line">    Uint16        header_size;  <span class="comment">/**&lt; ELF header size in bytes */</span></span><br><span class="line">    Uint16        segment_header_entry_size; <span class="comment">/**&lt; Segment header table entry size */</span></span><br><span class="line">    Uint16        segment_header_count; <span class="comment">/**&lt; Segment header table entry count */</span></span><br><span class="line">    Uint16        section_header_entry_size; <span class="comment">/**&lt; Section header table entry size */</span></span><br><span class="line">    Uint16        section_header_count; <span class="comment">/**&lt; Section header table entry count */</span></span><br><span class="line">    Uint16        section_header_string_index; <span class="comment">/**&lt; Section header string table index */</span></span><br><span class="line">&#125; AvElf64FileHeader;</span><br></pre></td></tr></table></figure></div>
+
 <p>While this is just an example where you need tests, the problem was big (in quantity) because I removed <code>#define</code>s and added enums and enums also need to be of particular size in order to keep the header struct of specific size. So all for those structs, where enums were added, I needed to check size.</p>
 <p>To be honest, I don’t have much experience with how to write tests and this is a first baby step. It’s also true that I don’t have time to only learn just about tests and I also don’t want to. I must learn as I work. That’s how it’s always been and it’s been profitable for me and I hope it’ll be that way in future.</p>
 <p>All required defines are present in a single header file for now.</p>
@@ -512,7 +515,7 @@
         <li><strong>Created at:</strong> 2023-07-13 21:55:19</li>
         
             <li>
-                <strong>Updated at:</strong> 2023-07-13 22:45:31
+                <strong>Updated at:</strong> 2023-07-13 22:51:04
             </li>
         
         <li>
