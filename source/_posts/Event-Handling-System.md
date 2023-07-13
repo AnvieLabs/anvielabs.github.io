@@ -12,9 +12,9 @@ categories:
 ---
 
 
-| Date | Author | Entry |
-|------|--------|-------|
-| 30th June 2023 | Siddharth Mishra | 1 |
+| Date             | Author           |
+|------------------|------------------|
+| June, 30th, 2023 | Siddharth Mishra |
 
 
 # Back Story
