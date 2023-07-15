@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="infosec, cybersec, security, reverse-engineering, comapny, anvielabs, anvie, antivirus">
+    
+    <meta name="author" content="The AnvieLabs CoreTeam">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://anvielabs.github.io/2023/07/15/realizing-how-to-write-better-unit-tests/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="Date Author    15th July 2023 Siddharth Mishra   If you’re developing a library, having tests verify your API can code before you release your code to public! or use it as a dependency in some othe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Realizing How To Write Better Unit Tests">
+<meta property="og:url" content="http://anvielabs.github.io/2023/07/15/Realizing-How-To-Write-Better-Unit-Tests/index.html">
+<meta property="og:site_name" content="Anvie Labs">
+<meta property="og:description" content="Date Author    15th July 2023 Siddharth Mishra   If you’re developing a library, having tests verify your API can code before you release your code to public! or use it as a dependency in some othe">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://anvielabs.github.io/images/test_bug_ss.png">
+<meta property="article:published_time" content="2023-07-15T15:13:35.000Z">
+<meta property="article:modified_time" content="2023-07-15T16:02:46.680Z">
+<meta property="article:author" content="Anvie Labs">
+<meta property="article:tag" content="infosec, cybersec, security, reverse-engineering, comapny, anvielabs, anvie, antivirus">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://anvielabs.github.io/images/test_bug_ss.png">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/favicon.ico" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Realizing How To Write Better Unit Tests -
+        
+        Anvie Labs
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/fonts/fonts.css">
+
+    
+<link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"anvielabs.github.io","root":"/","language":"en","path":"search.xml"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/shooting-star-wall.svg","dark":"/images/forest-dark-wall.jpg"},"title":"Anvie Labs Technical Blog","subtitle":{"text":["Welcome to our Techical Blog","Anvie is in it's very early stages of development","Read about our technical desgin decisions here"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":"Balanosima","url":"https://fonts.google.com/share?selection.family=Belanosima"},"social_links":{"enable":false,"links":{"github":"https://github.com/AnvieLabs","instagram":null,"zhihu":null,"twitter":"https://twitter.com/AnvieLabs","email":"anvielabs@gmail.com"}}},"plugins":{"feed":{"enable":true},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":true,"version":"1.0.5"}},"version":"2.2.1","navbar":{"auto_hide":true,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Anvie Labs":"/about","GitHub":"https://github.com/AnvieLabs"}},"Links":{"icon":"fa-regular fa-link","submenus":{"LinkedIn":"https://linkedin.com/company/AnvieLabs","Twitter":"https://twitter.com/AnvieLabs","Mastodon":"https://mastodon.social/@AnvieLabs"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":4},"tags":{"enable":true,"limit":4},"articles":null,"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Lead"]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":true,"title":"More from CoreTeam","limit":4,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"footerStart":"2023/6/30 07:00:00"};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    Global.data_config = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Anvie Labs" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/logo.png">
+                </a>
+            
+            <a class="logo-title" href="/">
+                
+                Anvie Labs
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/archives"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-archive"></i>
+                                        
+                                        ARCHIVES
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ANVIE LABS
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/AnvieLabs">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-link"></i>
+                                        
+                                        LINKS&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://linkedin.com/company/AnvieLabs">LINKEDIN
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://twitter.com/AnvieLabs">TWITTER
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://mastodon.social/@AnvieLabs">MASTODON
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/archives"  >
+                             
+                                
+                                    <i class="fa-regular fa-archive"></i>
+                                
+                                ARCHIVES
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ANVIE LABS</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/AnvieLabs">GITHUB</a>
+                            </li>
+                        
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-link"></i>
+                                
+                                LINKS&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://linkedin.com/company/AnvieLabs">LINKEDIN</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://twitter.com/AnvieLabs">TWITTER</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://mastodon.social/@AnvieLabs">MASTODON</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">Realizing How To Write Better Unit Tests</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/avatar.png">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">The AnvieLabs CoreTeam</span>
+                            
+                                <span class="author-label">Lv1</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-07-15 20:43:35</span>
+        <span class="mobile">2023-07-15 20:43</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-07-15 21:32:46</span>
+            <span class="mobile">2023-07-15 21:32</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Author</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>15th July 2023</td>
+<td>Siddharth Mishra</td>
+</tr>
+</tbody></table>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/images/test_bug_ss.png"
+                      alt="Screenshot of address santizer detecing a memory bug"
+                ><br>If you’re developing a library, having tests verify your API can code before you release your code to public! or use it as a dependency in some other project.</p>
+<h1 id="Write-Tests-For-More-Coverage"><a href="#Write-Tests-For-More-Coverage" class="headerlink" title="Write Tests For More Coverage!"></a>Write Tests For More Coverage!</h1><p>I watched a YouTube video today to learn more about unit tests. Learned some important things from it.</p>
+<p>While writing tests for <code>AnvVector</code>, I just realized one thing. The whole purpose of Unit Tests is to gain more code coverage for each separate unit. I’ll explain by giving example of <code>AnvVector</code> itself.</p>
+<p><code>AnvVector</code> aims to be a typesafe, generic vector in C. To create typesafe arrays, I use macros. This is not as typesafe as other higher level languages but adds a certain level of ease of use and safety to basic code without the macros. </p>
+<p>To create generic arrays, I use pointers to pass structs in API functions, but at the same time, this pointer can also hold 64 bit values. So I’m using it to store any value that’s less than equal to 64 bit too! It’s kind of messy when you try to use the raw API, but with helper macros, you won’t feel anything odd about it’s external working. To resolve to different type of values, I internally keep track of the size of element. Here’s the code for <code>AnvVector_Overwrite</code> function that can be used to write at any position in <code>AnvVector</code> :</p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Move an element between two positions.</span></span><br><span class="line"><span class="comment"> * This will automatically destroy element where data is to be</span></span><br><span class="line"><span class="comment"> * overwritten before writing anything.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param p_vec</span></span><br><span class="line"><span class="comment"> * @param pos Position where this new data</span></span><br><span class="line"><span class="comment"> * @param p_data Data to be moved</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line">FORCE_INLINE <span class="type">void</span> <span class="title function_">AnvVector_Overwrite</span><span class="params">(AnvVector* p_vec, Size pos, <span class="type">void</span>* p_data)</span> &#123;</span><br><span class="line">    RETURN_IF_FAIL(p_vec &amp;&amp; (pos &lt; p_vec-&gt;capacity), ERR_INVALID_ARGUMENTS);</span><br><span class="line"></span><br><span class="line">    Uint64 value = (Uint64)p_data;</span><br><span class="line">    <span class="keyword">switch</span>(AnvVector_ElementSize(p_vec)) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">8</span> : AnvVector_At(p_vec, Uint64, pos) = (Uint64)value; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span> : AnvVector_At(p_vec, Uint32, pos) = (Uint32)value; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span> : AnvVector_At(p_vec, Uint16, pos) = (Uint16)value; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span> : AnvVector_At(p_vec, Uint8, pos) = (Uint8)value; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span> : &#123;</span><br><span class="line">            <span class="keyword">if</span>(p_vec-&gt;pfn_create_copy) &#123;</span><br><span class="line">                <span class="type">void</span>* p_elem = AnvVector_AddressAt(p_vec, pos);</span><br><span class="line">                <span class="keyword">if</span>(pos &lt; p_vec-&gt;length) p_vec-&gt;pfn_destroy_copy(p_elem);</span><br><span class="line">                <span class="keyword">if</span>(p_data) p_vec-&gt;pfn_create_copy(p_elem, p_data);</span><br><span class="line">                <span class="keyword">else</span> <span class="built_in">memset</span>(p_elem, <span class="number">0</span>, p_vec-&gt;element_size);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="type">void</span>* p_elem = AnvVector_AddressAt(p_vec, pos);</span><br><span class="line">                <span class="keyword">if</span>(p_data) <span class="built_in">memcpy</span>(p_elem, p_data, AnvVector_ElementSize(p_vec));</span><br><span class="line">                <span class="keyword">else</span> <span class="built_in">memset</span>(p_elem, <span class="number">0</span>, AnvVector_ElementSize(p_vec));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<p>Notice how it’s converting pointer to a <code>Uint64</code> value and then storing data inside array.</p>
+<p>Ok, so now we need to test this API, or atleast other APIs using this one. In that case, as I said, Unit Tests must have as much coverage as possible. To do this I realized the following idea : </p>
+<blockquote>
+<p>To have a good coverage, you need to create tests corresponding to each branch in the code you’re testing</p>
+</blockquote>
+<p>Here, allow me to explain. Consider the control flow graph of this method :</p>
+<pre class="mermaid">graph TD;
+
+OWRITE[AnvVector_Overwrite]
+SWITCH{switch element_size}
+U64[(Is this Uint64 Vector?)]
+U32[(Is this Uint32 Vector?)]
+U16[(Is this Uint16 Vector?)]
+U8[(Is this Uint8 Vector?)]
+DEFAULT[(Is this a Struct Vector?)]
+
+STORE64(store u64)
+STORE32(store u32)
+STORE16(store u16)
+STORE8(store u8)
+
+OWRITE --> SWITCH
+SWITCH --> U64
+
+U64 --> |True| STORE64
+U64 --> |False| U32
+
+U32 --> |True| STORE32
+U32 --> |False| U16
+
+U16 --> |True| STORE16
+U16 --> |False| U8
+
+U8 --> |True| STORE8
+U8 --> |False| DEFAULT
+
+DEFAULT --> COPY_CTR{Does it have a\ncopy constructor?}
+
+COPY_CTR --> |True| STRUCT_WITH_COPY[(we need to use copy constructor\nto create copies)]
+COPY_CTR --> |False| STRUCT_VANILLA[(we can just use memcpy\nto create copies)]</pre>
+
+<p>Each cylinder represents a single unit test case that we need to test. Notice the branches and control flow. By getting more coverage, we mean most of these branches will be executed in testing phases. To explain it in more layman terms :</p>
+<ul>
+<li>Consider your program has 1000 CPU instructions</li>
+<li>If the tests you write cover only say 700 instructions. (Only 700 instructions out of 1000 insns. get executed)</li>
+<li>In above case, we say you get 70% code coverage.</li>
+<li>This means 30% of your code remains untested.</li>
+<li>This 30% of your code<ul>
+<li>Might contain severe bugs</li>
+<li>Might fail when given certian inputs</li>
+</ul>
+</li>
+<li>More importantly, when this goes on for long, this code might cascade some other bugs and<ul>
+<li>Make debugging program lot harder</li>
+<li>Tests might not be precise due to this 30% code failing other tests in future</li>
+</ul>
+</li>
+</ul>
+<p>So when I’m writing tests, I need to test for each of these units. Now, since the <code>UintNN</code> branches behave much similarly so I believe if we just mix their use while writing tests, it’ll cover all of them. Then other units we need to write tests for are these last two units. When array has to use a copy constructor to create a copy of element and store it internally, or when it can just do <code>memcpy</code>.</p>
+<h2 id="Write-Tests-With-Data-You-Know-No-Use-of-rand"><a href="#Write-Tests-With-Data-You-Know-No-Use-of-rand" class="headerlink" title="Write Tests With Data You Know! No Use of rand()!!"></a>Write Tests With Data You Know! No Use of <code>rand()</code>!!</h2><p>Searching mindlessly on YouTube about something interesting to watch, I came across this awesome video that covers some points on how to write <strong>GOOD</strong> unit tests. This post covers only the parts I realized today while writing tests (as the title states).</p>
+<center>
+<iframe width="720" height="480" src="https://www.youtube.com/embed/fr1E9aVnBxw?start=439" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</center>
+
+<p>Eliotte here mentions that you must always try to use known values instead of using <code>rand()</code>, in your tests. So, here’s a small story for you : </p>
+<ul>
+<li>While writing tests, 2 tests were failing</li>
+<li>After watching this video, I replaced <code>rand()</code> with direct iterated values (generated in a loop)</li>
+<li>I get 3 failing tests!</li>
+</ul>
+<p>Why? This had to do with my <code>AnvVector</code> API. I treat pointers as integers sometimes and sometimes I treat them as normal pointers to structured data. This needs testing because while implementing the API functions, I was constantly changing other APIs too, and this idea of using of <code>void*</code> as integer values came through that evolutionary process! This significant change means that <code>NULL</code> pointers are valid values to be inserted into <code>AnvVector</code>(s) and <code>rand()</code> rarely returns 0, therefore this extra test wasn’t failing at that time and as soon as I removed <code>rand()</code> with normal iterated values, 0 was in that list and test started failing.</p>
+<h1 id="Test-All-APIs-Irrespective-Of-Size"><a href="#Test-All-APIs-Irrespective-Of-Size" class="headerlink" title="Test All APIs Irrespective Of Size"></a>Test All APIs Irrespective Of Size</h1><p>Consider these two functions : </p>
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Insert an element into @c AnvVector.</span></span><br><span class="line"><span class="comment"> * This will insert element at position by creating space.</span></span><br><span class="line"><span class="comment"> * This means order of array will be preserved before and after</span></span><br><span class="line"><span class="comment"> * insertion.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @param p_vec</span></span><br><span class="line"><span class="comment"> * @param p_data Pointer to memory or just the value to be inserted into</span></span><br><span class="line"><span class="comment"> * contiguous array maintained in @c AnvVector.</span></span><br><span class="line"><span class="comment"> * @param pos Position where insertion will take place.</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line">FORCE_INLINE <span class="type">void</span> <span class="title function_">AnvVector_Insert</span><span class="params">(AnvVector* p_vec, <span class="type">void</span> *p_data, Size pos)</span> &#123;</span><br><span class="line">    RETURN_IF_FAIL(p_vec, ERR_INVALID_ARGUMENTS);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// resize array if insert position is more than capacity</span></span><br><span class="line">    <span class="keyword">if</span>(pos &gt;= p_vec-&gt;capacity) &#123;</span><br><span class="line">        <span class="comment">// calculate new allocation capacity if required</span></span><br><span class="line">        Size new_capacity = p_vec-&gt;capacity;</span><br><span class="line">        <span class="keyword">while</span>(pos &gt;= new_capacity) &#123;</span><br><span class="line">            new_capacity = p_vec-&gt;capacity * (<span class="number">1</span> + p_vec-&gt;resize_factor);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// reallocate if we need to</span></span><br><span class="line">        <span class="type">void</span>* p_temp = <span class="built_in">realloc</span>(p_vec-&gt;p_data, new_capacity * AnvVector_ElementSize(p_vec));</span><br><span class="line">        RETURN_IF_FAIL(p_temp, ERR_OUT_OF_MEMORY);</span><br><span class="line">        p_vec-&gt;p_data = p_temp;</span><br><span class="line">        p_vec-&gt;capacity = new_capacity;</span><br><span class="line">        p_vec-&gt;length = pos;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// resize array if insert position is in between but array is at capacity</span></span><br><span class="line">    <span class="keyword">if</span>(p_vec-&gt;length &gt;= p_vec-&gt;capacity) &#123;</span><br><span class="line">        Size new_size = p_vec-&gt;capacity * (p_vec-&gt;resize_factor + <span class="number">1</span>);</span><br><span class="line">        <span class="type">void</span>* p_temp = <span class="built_in">realloc</span>(p_vec-&gt;p_data, new_size * AnvVector_ElementSize(p_vec));</span><br><span class="line">        RETURN_IF_FAIL(p_temp, ERR_OUT_OF_MEMORY);</span><br><span class="line">        p_vec-&gt;p_data = p_temp;</span><br><span class="line">        p_vec-&gt;capacity = new_size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// shift elements to create space</span></span><br><span class="line">    Size shift_index = p_vec-&gt;length;</span><br><span class="line">    <span class="keyword">while</span>(shift_index &gt; pos) &#123;</span><br><span class="line">        Size next = shift_index; <span class="comment">// at the starting of loop, this is index of position just after last element</span></span><br><span class="line">        Size prev = --shift_index; <span class="comment">// at the starting of loop, this is index of last element</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// NOTE Copy operation might be slow for struct arrays</span></span><br><span class="line">        AnvVector_Copy(p_vec, next, prev);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// insert</span></span><br><span class="line">    AnvVector_Overwrite(p_vec, pos, p_data);</span><br><span class="line"></span><br><span class="line">    p_vec-&gt;length++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Push an element to front by preserving order.</span></span><br><span class="line"><span class="comment"> * @param p_vec</span></span><br><span class="line"><span class="comment"> * @param p_data</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">AnvVector_PushFront</span><span class="params">(AnvVector* p_vec, <span class="type">void</span>* p_data)</span> &#123;</span><br><span class="line">    RETURN_IF_FAIL(p_vec, ERR_INVALID_ARGUMENTS);</span><br><span class="line">    AnvVector_Insert(p_vec, p_data, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>Now, at first sight, you might feel like if we just test the <code>Insert</code> method, then we’ll cover this <code>PushFront</code> case too! but that’s not the case. This function is reason for one of those 2 failing tests! Yes! Reason is that it’s always inserting elements at 0, that that specific case wasn’t tested when testing <code>Insert</code> method! Writing a test for a function as small as this one too found a bug for me and saved me hours and days of development time!</p>
+<h1 id="Ending-Notes"><a href="#Ending-Notes" class="headerlink" title="Ending Notes"></a>Ending Notes</h1><p>There are lots of things I’ll learn now. I’ll keep adding them as reference here. Next, I’ll be integrating this with <code>AnvieFile</code> after I finish writing tests for struct based arrays with copy and without copy constructors.</p>
+<p>Ciao ciao!</p>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Realizing How To Write Better Unit Tests</li>
+        <li><strong>Author:</strong> The AnvieLabs CoreTeam</li>
+        <li><strong>Created at:</strong> 2023-07-15 20:43:35</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-07-15 21:32:46
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://anvielabs.github.io/2023/07/15/Realizing-How-To-Write-Better-Unit-Tests/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/2023/07/13/Adding-Tests-To-Anvie/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">Adding Tests To Anvie</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+    <div id="giscus-container"></div>
+    <script data-pjax defer>
+        async function loadGiscus() {
+            const giscusConfig = {
+                'src': 'https://giscus.app/client.js',
+                'data-repo': 'AnvieLabs/anvielabs.github.io',
+                'data-repo-id': 'R_kgDOJ128vw',
+                'data-category': 'General',
+                'data-category-id': 'DIC_kwDOJ128v84CXk62',
+                'data-mapping': 'title',
+                'data-strict': '1',
+                'data-reactions-enabled': '1',
+                'data-emit-metadata': '1',
+                'data-theme': 'preferred_color_scheme',
+                'data-lang': 'en',
+                'data-input-position': 'top',
+                'data-loading': 'lazy',
+                'crossorigin': 'anonymous',
+                'async': true
+            }
+            const giscusScript = document.createElement('script');
+            for (const key in giscusConfig) {
+                giscusScript.setAttribute(key, giscusConfig[key]);
+            }
+            document.getElementById('giscus-container').appendChild(giscusScript);
+        }
+        if ('true') {
+            let loadGiscusTimeout = setTimeout(() => {
+                loadGiscus();
+                clearTimeout(loadGiscusTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadGiscus);
+        }
+    </script>
+
+
+        
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Realizing How To Write Better Unit Tests</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Write-Tests-For-More-Coverage"><span class="nav-text">Write Tests For More Coverage!</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Write-Tests-With-Data-You-Know-No-Use-of-rand"><span class="nav-text">Write Tests With Data You Know! No Use of rand()!!</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Test-All-APIs-Irrespective-Of-Size"><span class="nav-text">Test All APIs Irrespective Of Size</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ending-Notes"><span class="nav-text">Ending Notes</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">The AnvieLabs CoreTeam</a>
+        </div>
+
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+
+        
+
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+
+        
+        
+    </div>  
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="right-bottom-tools rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                <i class="fa-regular fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fa-solid fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa-solid fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+    
+<script src="/js/tools/localSearch.js"></script>
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+    
+<script src="/js/libs/mermaid.min.js"></script>
+
+    
+<script src="/js/plugins/mermaid.js"></script>
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
