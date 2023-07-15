@@ -325,5 +325,13 @@ COPY_CTR --> |False| STRUCT_VANILLA[(we can just use memcpy\nto create copies)]<
 <h1 id="Ending-Notes"><a href="#Ending-Notes" class="headerlink" title="Ending Notes"></a>Ending Notes</h1><p>There are lots of things I’ll learn now. I’ll keep adding them as reference here. Next, I’ll be integrating this with <code>AnvieFile</code> after I finish writing tests for struct based arrays with copy and without copy constructors.</p>
 <p>Ciao ciao!</p>
 ]]></content>
+      <categories>
+        <category>utils</category>
+      </categories>
+      <tags>
+        <tag>anvie</tag>
+        <tag>utils</tag>
+        <tag>tests</tag>
+      </tags>
   </entry>
 </search>
