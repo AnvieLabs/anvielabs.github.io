@@ -119,11 +119,31 @@ Each cylinder represents a single unit test case that we need to test. Notice th
 
 So when I'm writing tests, I need to test for each of these units. Now, since the `UintNN` branches behave much similarly so I believe if we just mix their use while writing tests, it'll cover all of them. Then other units we need to write tests for are these last two units. When array has to use a copy constructor to create a copy of element and store it internally, or when it can just do `memcpy`.
 
-## Write Tests With Data You Know! No Use of `rand()`!!
+# Write Tests For Validation Code Too!
+One trick I learned while working with rizin is, if your function takes some argument that can be wrong, you need to know about it!. For eg: When a function takes pointers, like a string or a pointer to some data structure, you must check whether pointer is null or nonnull. If it's invalid pointer then you make an early exit from function. This will prevent many bugs and will also give many helpful messages in development phase.
+
+So, the functions look like this :
+
+```c
+AnvVector* AnvVector_Create(Size element_size, AnvElementCopyConstructorFn pfn_create_copy, AnvElementCopyDestructor pfn_destroy_copy) {
+    if(!elemen_size || !pfn_create_copy || !pfn_destroy_copy) {
+        DBG("AnvVector::Create() ERROR : INVALID ARGUMENTS"); // show a debug message!
+        return;
+    }
+    
+    .
+    .
+    .
+}
+```
+
+This way, when any one of the arguments is invalid, you'll get a nice debug message that some other function using this `AnvVector_Create` API is using it incorrectly. When writing tests, since this is also a part of this API implementation, this will also come under a single unit, and hence you must write tests that knowlingly use this API incorrectly so that it fails. This way, you'll know that atleast this code works, and your program will atleasy display a debug message when in production. This way, if it happens in production, or alpha testing or later phases, an issue can be raised and you can verify it by asking details to repro the bug.
+
+# Write Tests With Data You Know! No Use of `rand()`!!
 Searching mindlessly on YouTube about something interesting to watch, I came across this awesome video that covers some points on how to write **GOOD** unit tests. This post covers only the parts I realized today while writing tests (as the title states).
 
 <center>
-<iframe width="720" height="480" src="https://www.youtube.com/embed/fr1E9aVnBxw?start=439" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="540" height="360" src="https://www.youtube.com/embed/fr1E9aVnBxw?start=439" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </center>
 
 Eliotte here mentions that you must always try to use known values instead of using `rand()`, in your tests. So, here's a small story for you : 
@@ -153,43 +173,17 @@ FORCE_INLINE void AnvVector_Insert(AnvVector* p_vec, void *p_data, Size pos) {
     RETURN_IF_FAIL(p_vec, ERR_INVALID_ARGUMENTS);
 
     // resize array if insert position is more than capacity
-    if(pos >= p_vec->capacity) {
-        // calculate new allocation capacity if required
-        Size new_capacity = p_vec->capacity;
-        while(pos >= new_capacity) {
-            new_capacity = p_vec->capacity * (1 + p_vec->resize_factor);
-        }
-
-        // reallocate if we need to
-        void* p_temp = realloc(p_vec->p_data, new_capacity * AnvVector_ElementSize(p_vec));
-        RETURN_IF_FAIL(p_temp, ERR_OUT_OF_MEMORY);
-        p_vec->p_data = p_temp;
-        p_vec->capacity = new_capacity;
-        p_vec->length = pos;
-    }
+    .
+    .
+    .
 
     // resize array if insert position is in between but array is at capacity
-    if(p_vec->length >= p_vec->capacity) {
-        Size new_size = p_vec->capacity * (p_vec->resize_factor + 1);
-        void* p_temp = realloc(p_vec->p_data, new_size * AnvVector_ElementSize(p_vec));
-        RETURN_IF_FAIL(p_temp, ERR_OUT_OF_MEMORY);
-        p_vec->p_data = p_temp;
-        p_vec->capacity = new_size;
-    }
-
     // shift elements to create space
-    Size shift_index = p_vec->length;
-    while(shift_index > pos) {
-        Size next = shift_index; // at the starting of loop, this is index of position just after last element
-        Size prev = --shift_index; // at the starting of loop, this is index of last element
-
-        // NOTE Copy operation might be slow for struct arrays
-        AnvVector_Copy(p_vec, next, prev);
-    }
-
     // insert
-    AnvVector_Overwrite(p_vec, pos, p_data);
-
+    .
+    .
+    .
+    
     p_vec->length++;
 }
 ```
