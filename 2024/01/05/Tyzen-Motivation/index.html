@@ -9,7 +9,7 @@
     <!-- preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     
     <!--- Seo Part-->
     
@@ -18,15 +18,15 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="I’ve started working on a new specification langauge for automatic test case generation and software verification. The correct specification of this langauge itself does not exist at the moment. This">
+        <meta name="description" content="I’ve started working on a new specification language for automatic test case generation and software verification. The correct specification of this langauge itself does not exist at the moment. This">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tyzen - Motivation">
 <meta property="og:url" content="http://anvielabs.github.io/2024/01/05/Tyzen-Motivation/index.html">
 <meta property="og:site_name" content="Anvie Labs">
-<meta property="og:description" content="I’ve started working on a new specification langauge for automatic test case generation and software verification. The correct specification of this langauge itself does not exist at the moment. This">
+<meta property="og:description" content="I’ve started working on a new specification language for automatic test case generation and software verification. The correct specification of this langauge itself does not exist at the moment. This">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-01-05T12:39:39.000Z">
-<meta property="article:modified_time" content="2024-01-05T15:21:31.034Z">
+<meta property="article:modified_time" content="2024-01-06T05:12:49.562Z">
 <meta property="article:author" content="Anvie Labs">
 <meta property="article:tag" content="formal-methods">
 <meta property="article:tag" content="formal-verification">
@@ -48,17 +48,177 @@
         
         Anvie Labs
     </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    
+        <style>
+    :root {
+        --preloader-background-color: #fff;
+        --preloader-text-color: #000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --preloader-background-color: #202124;
+            --preloader-text-color: #fff;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        :root {
+            --preloader-background-color: #fff;
+            --preloader-text-color: #000;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .ml13 {
+            font-size: 2.6rem !important; /* Adjust this value as needed */
+        }
+    }
+
+    .preloader {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* Tailwind 'gap-4' is 1rem */
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        padding: 12px;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh; /* 'h-screen' is 100% of the viewport height */
+        background-color: var(--preloader-background-color);
+        z-index: 1100; /* 'z-[1100]' sets the z-index */
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .ml13 {
+        font-size: 3.2rem;
+        /* text-transform: uppercase; */
+        color: var(--preloader-text-color);
+        letter-spacing: -1px;
+        font-weight: 500;
+        font-family: 'Chillax-Variable', sans-serif;
+        text-align: center;
+    }
+
+    .ml13 .word {
+        display: inline-flex;
+        flex-wrap: wrap;
+        white-space: nowrap;
+    }
+
+    .ml13 .letter {
+        display: inline-block;
+        line-height: 1em;
+    }
+</style>
+
+<div class="preloader">
+    
+<script src="/js/libs/anime.min.js"></script>
+
+    <h1 class="ml13">
+        Anvie Labs
+    </h1>
+    <script>
+        var textWrapper = document.querySelector('.ml13');
+        // Split text into words
+        var words = textWrapper.textContent.trim().split(' ');
+
+        // Clear the existing content
+        textWrapper.innerHTML = '';
+
+        // Wrap each word and its letters in spans
+        words.forEach(function(word) {
+            var wordSpan = document.createElement('span');
+            wordSpan.classList.add('word');
+            wordSpan.innerHTML = word.replace(/\S/g, "<span class='letter'>$&</span>");
+            textWrapper.appendChild(wordSpan);
+            textWrapper.appendChild(document.createTextNode(' ')); // Add space between words
+        });
+
+
+        anime.timeline({loop: true})
+            .add({
+                targets: '.ml13 .letter',
+                translateY: [100,0],
+                translateZ: 0,
+                opacity: [0,1],
+                easing: "easeOutExpo",
+                duration: 1400,
+                delay: (el, i) => 300 + 30 * i
+            }).add({
+            targets: '.ml13 .letter',
+            translateY: [0,-100],
+            opacity: [1,0],
+            easing: "easeInExpo",
+            duration: 1200,
+            delay: (el, i) => 100 + 30 * i
+        });
+
+        let themeStatus = JSON.parse(localStorage.getItem('REDEFINE-THEME-STATUS'))?.isDark;
+
+        // If the theme status is not found in local storage, check the preferred color scheme
+        if (themeStatus === undefined || themeStatus === null) {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                themeStatus = 'dark';
+            } else {
+                themeStatus = 'light';
+            }
+        }
+
+        // Now you can use the themeStatus variable in your code
+        if (themeStatus) {
+            document.documentElement.style.setProperty('--preloader-background-color', '#202124');
+            document.documentElement.style.setProperty('--preloader-text-color', '#fff');
+        } else {
+            document.documentElement.style.setProperty('--preloader-background-color', '#fff');
+            document.documentElement.style.setProperty('--preloader-text-color', '#000');
+        }
+
+        window.addEventListener('load', function () {
+            hidePreloaderAfterTimeout(1000); // Hide after 1000 milliseconds once the window has loaded
+        });
+
+        // Backup failsafe: Hide preloader after a maximum of 5000 milliseconds, regardless of the window load event
+        hidePreloaderAfterTimeout(5000);
+
+        function hidePreloaderAfterTimeout(delay) {
+            setTimeout(function () {
+                var preloader = document.querySelector('.preloader');
+                preloader.style.opacity = '0';
+                setTimeout(function () {
+                    preloader.style.display = 'none';
+                }, 200);
+            }, delay);
+        }
+    </script>
+</div>
+    
+
     
 <link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/assets/build/styles.css">
+
+    
 
     
 <link rel="stylesheet" href="/fonts/fonts.css">
 
     
 <link rel="stylesheet" href="/fonts/Satoshi/satoshi.css">
-
-    
-<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
     <!--- Font Part-->
     
@@ -69,11 +229,10 @@
     <!--- Inject Part-->
     
     <script id="hexo-configurations">
-    let Global = window.Global || {};
-    Global.hexo_config = {"hostname":"anvielabs.github.io","root":"/","language":"en","path":"search.xml"};
-    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/shooting-star-wall.svg","dark":"/images/forest-dark-wall.jpg"},"title":"Anvie Labs Technical Blog","subtitle":{"text":["Welcome to our Techical Blog","Anvie is in it's very early stages of development","Read about our technical desgin decisions here"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":"Balanosima","url":"https://fonts.google.com/share?selection.family=Belanosima"},"social_links":{"enable":false,"links":{"github":"https://github.com/AnvieLabs","instagram":null,"zhihu":null,"twitter":"https://twitter.com/AnvieLabs","email":"anvielabs@gmail.com"}}},"plugins":{"feed":{"enable":true},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":true,"version":"1.0.5"}},"version":"2.2.1","navbar":{"auto_hide":true,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Anvie Labs":"/about","GitHub":"https://github.com/AnvieLabs"}},"Links":{"icon":"fa-regular fa-link","submenus":{"LinkedIn":"https://linkedin.com/company/AnvieLabs","Twitter":"https://twitter.com/AnvieLabs","Mastodon":"https://mastodon.social/@AnvieLabs"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":4},"tags":{"enable":true,"limit":4},"articles":null,"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Lead"]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":true,"title":"More from CoreTeam","limit":4,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"footerStart":"2023/6/30 07:00:00"};
-    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
-    Global.data_config = {"masonry":false};
+    window.config = {"hostname":"anvielabs.github.io","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"title_alignment":"left"},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":true,"open_graph":true,"google_analytics":{"enable":false,"id":null},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/shooting-star-wall.svg","dark":"/images/forest-dark-wall.jpg"},"title":"Anvie Labs Technical Blog","subtitle":{"text":["Welcome to our Techical Blog","Anvie is in it's very early stages of development","Read about our technical desgin decisions here"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":"Balanosima","url":"https://fonts.google.com/share?selection.family=Belanosima"},"social_links":{"enable":true,"links":{"github":"https://github.com/AnvieLabs","instagram":null,"zhihu":null,"twitter":"https://twitter.com/AnvieLabs","email":"anvielabs@gmail.com"},"qrs":{"weixin":null}}},"plugins":{"feed":{"enable":true},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":true,"version":"1.0.5"}},"version":"2.6.0","navbar":{"auto_hide":true,"color":{"left":"#f78736","right":"#367df7","transparency":35},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Anvie Labs":"/about","GitHub":"https://github.com/AnvieLabs"}},"Links":{"icon":"fa-regular fa-link","submenus":{"LinkedIn":"https://linkedin.com/company/AnvieLabs","Twitter":"https://twitter.com/AnvieLabs","Mastodon":"https://mastodon.social/@AnvieLabs"}}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"}}},"article_date_format":"auto","categories":{"enable":true,"limit":4},"tags":{"enable":true,"limit":4},"articles":null,"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":true,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":["Founder & CEO"]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":true,"title":"More from CoreTeam","limit":4,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"footerStart":"2023/6/30 07:00:00"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
   </script>
     
     <!--- Fontawesome Part-->
@@ -217,22 +376,23 @@ mjx-container[display="true"] + br {
 
     
         <span class="pjax-progress-bar"></span>
-        <span class="pjax-progress-icon">
-            <i class="fa-solid fa-circle-notch fa-spin"></i>
-        </span>
+<!--        <span class="swup-progress-icon">-->
+<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+<!--        </span>-->
     
 </div>
 
 
-<main class="page-container">
+<main class="page-container" id="swup">
 
     
 
     <div class="main-content-container">
 
+
         <div class="main-content-header">
             <header class="navbar-container">
-    
+
     <div class="navbar-content">
         <div class="left">
             
@@ -253,98 +413,107 @@ mjx-container[display="true"] + br {
                 <ul class="navbar-list">
                     
                         
+                            
+
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="" 
-                                    href="/"  >
-                                    
-                                        
-                                            <i class="fa-regular fa-house"></i>
-                                        
-                                        HOME
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
                                     
                                 </a>
+
                                 <!-- Submenu -->
                                 
                             </li>
                     
                         
+                            
+
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="" 
-                                    href="/archives"  >
-                                    
-                                        
-                                            <i class="fa-regular fa-archive"></i>
-                                        
-                                        ARCHIVES
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
                                     
                                 </a>
+
                                 <!-- Submenu -->
                                 
                             </li>
                     
                         
+                            
+
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="has-dropdown" 
-                                    href="#" onClick="return false;">
-                                    
-                                        
-                                            <i class="fa-regular fa-user"></i>
-                                        
-                                        ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
-                                    
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
                                 </a>
+
                                 <!-- Submenu -->
                                 
                                     <ul class="sub-menu">
-                                    
-                                        <li>
-                                        <a href="/about">ANVIE LABS
-                                        </a>
-                                        </li>
-                                    
-                                        <li>
-                                        <a target="_blank" rel="noopener" href="https://github.com/AnvieLabs">GITHUB
-                                        </a>
-                                        </li>
-                                    
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ANVIE LABS
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/AnvieLabs">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
                                     </ul>
                                 
                             </li>
                     
                         
+                            
+
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="has-dropdown" 
-                                    href="#" onClick="return false;">
-                                    
-                                        
-                                            <i class="fa-regular fa-link"></i>
-                                        
-                                        LINKS&nbsp;<i class="fa-solid fa-chevron-down"></i>
-                                    
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
                                 </a>
+
                                 <!-- Submenu -->
                                 
                                     <ul class="sub-menu">
-                                    
-                                        <li>
-                                        <a target="_blank" rel="noopener" href="https://linkedin.com/company/AnvieLabs">LINKEDIN
-                                        </a>
-                                        </li>
-                                    
-                                        <li>
-                                        <a target="_blank" rel="noopener" href="https://twitter.com/AnvieLabs">TWITTER
-                                        </a>
-                                        </li>
-                                    
-                                        <li>
-                                        <a target="_blank" rel="noopener" href="https://mastodon.social/@AnvieLabs">MASTODON
-                                        </a>
-                                        </li>
-                                    
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://linkedin.com/company/AnvieLabs">
+                                                    LINKEDIN
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://twitter.com/AnvieLabs">
+                                                    TWITTER
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://mastodon.social/@AnvieLabs">
+                                                    MASTODON
+                                                </a>
+                                            </li>
+                                        
                                     </ul>
                                 
                             </li>
@@ -359,7 +528,8 @@ mjx-container[display="true"] + br {
             <!-- Mobile -->
             <div class="mobile">
                 
-                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
                 
                 <div class="icon-item navbar-bar">
                     <div class="navbar-bar-middle"></div>
@@ -369,95 +539,138 @@ mjx-container[display="true"] + br {
     </div>
 
     <!-- Mobile drawer -->
-    <div class="navbar-drawer">
-        <ul class="drawer-navbar-list">
+    <div class="navbar-drawer h-screen w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
             
                 
-                    <li class="drawer-navbar-item flex-center">
-                        <a class="" 
-                        href="/"  >
-                             
-                                
-                                    <i class="fa-regular fa-house"></i>
-                                
-                                HOME
-                            
-                        </a>
-                    </li>
-                    <!-- Submenu -->
                     
-            
-                
-                    <li class="drawer-navbar-item flex-center">
-                        <a class="" 
-                        href="/archives"  >
-                             
-                                
-                                    <i class="fa-regular fa-archive"></i>
-                                
-                                ARCHIVES
-                            
-                        </a>
-                    </li>
-                    <!-- Submenu -->
-                    
-            
-                
-                    <li class="drawer-navbar-item flex-center">
-                        <a class="has-dropdown" 
-                        href="#" onClick="return false;">
-                            
-                                
-                                    <i class="fa-regular fa-user"></i>
-                                
-                                ABOUT&nbsp;<i class="fa-solid fa-chevron-down"></i>
-                            
-                        </a>
-                    </li>
-                    <!-- Submenu -->
-                              
-                        
-                            <li class="dropdown-item flex-center">
-                                <a class="dropdown-item" href="/about">ANVIE LABS</a>
-                            </li>
-                        
-                            <li class="dropdown-item flex-center">
-                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/AnvieLabs">GITHUB</a>
-                            </li>
-                        
-                    
-            
-                
-                    <li class="drawer-navbar-item flex-center">
-                        <a class="has-dropdown" 
-                        href="#" onClick="return false;">
-                            
-                                
-                                    <i class="fa-regular fa-link"></i>
-                                
-                                LINKS&nbsp;<i class="fa-solid fa-chevron-down"></i>
-                            
-                        </a>
-                    </li>
-                    <!-- Submenu -->
-                              
-                        
-                            <li class="dropdown-item flex-center">
-                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://linkedin.com/company/AnvieLabs">LINKEDIN</a>
-                            </li>
-                        
-                            <li class="dropdown-item flex-center">
-                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://twitter.com/AnvieLabs">TWITTER</a>
-                            </li>
-                        
-                            <li class="dropdown-item flex-center">
-                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://mastodon.social/@AnvieLabs">MASTODON</a>
-                            </li>
-                        
-                    
-            
 
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ANVIE LABS</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/AnvieLabs">GITHUB</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-Links"
+                        >
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-Links">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://linkedin.com/company/AnvieLabs">LINKEDIN</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://twitter.com/AnvieLabs">TWITTER</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://mastodon.social/@AnvieLabs">MASTODON</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
         </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">13</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
     </div>
 
     <div class="window-mask"></div>
@@ -474,44 +687,42 @@ mjx-container[display="true"] + br {
             <div class="main-content">
 
                 
-                    <div class="fade-in-down-animation">
-    <div class="post-page-container">
-        <div class="article-content-container">
+                    <div class="post-page-container flex relative justify-between box-border w-full h-full">
+    <div class="article-content-container">
 
+        <div class="article-title relative w-full">
             
-            
-                <div class="article-title">
-                    <h1 class="article-title-regular">Tyzen - Motivation</h1>
+                <div class="w-full flex items-center pt-6 justify-start">
+                    <h1 class="article-title-regular text-second-text-color text-4xl md:text-6xl font-bold px-2 sm:px-6 md:px-8 py-3">Tyzen - Motivation</h1>
                 </div>
             
-                
-            
+            </div>
 
-            
-                <div class="article-header">
-                    <div class="avatar">
-                        <img src="/images/avatar.png">
+        
+            <div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/avatar.png">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">Siddharth Mishra</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
                     </div>
-                    <div class="info">
-                        <div class="author">
-                            <span class="name">The AnvieLabs CoreTeam</span>
-                            
-                                <span class="author-label">Lv1</span>
-                            
-                        </div>
-                        <div class="meta-info">
-                            <div class="article-meta-info">
+                    <div class="meta-info">
+                        <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
         <span class="desktop">2024-01-05 18:09:39</span>
-        <span class="mobile">2024-01-05 18:09</span>
+        <span class="mobile">2024-01-05 18:09:39</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2024-01-05 20:51:31</span>
-            <span class="mobile">2024-01-05 20:51</span>
+            <span class="desktop">2024-01-06 10:42:49</span>
+            <span class="mobile">2024-01-06 10:42:49</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -521,13 +732,24 @@ mjx-container[display="true"] + br {
             <i class="fa-regular fa-folders"></i>&nbsp;
             <ul>
                 
-                    <li>
-                        <a href="/categories/research/">research</a>&nbsp;
-                    </li>
                 
-                    <li>
-                        &gt; <a href="/categories/research/tizen/">tizen</a>&nbsp;
-                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/research/">research</a>&nbsp;
+                        </li>
+                    
+                    
+                
+                    
+                        
+                            <li>></li>
+                        
+                        <li>
+                            <a href="/categories/research/tizen/">tizen</a>&nbsp;
+                        </li>
+                    
+                    
                 
             </ul>
         </span>
@@ -567,17 +789,21 @@ mjx-container[display="true"] + br {
     
 </div>
 
-                        </div>
                     </div>
                 </div>
-            
+            </div>
+        
 
-            <div class="article-content markdown-body">
-                <p>I’ve started working on a new specification langauge for automatic test case generation and software verification. The correct specification of this langauge itself does not exist at the moment. This post and follow-up series of posts will document the train of thought followed for building a new langauge, and that to for writing specifications of programs that needs to be tested. At the time of writing, I’ve very new to this research area, and the research area is relatively new itself. My aim is to learn about the current existing methods, and apply those to create a new langauge for testing of sofware. Hence, introducing you to…</p>
+        
+
+
+        <div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+            <p>I’ve started working on a new specification language for automatic test case generation and software verification. The correct specification of this langauge itself does not exist at the moment. This post and follow-up series of posts will document the train of thought followed for building a new langauge, and that to for writing specifications of programs that needs to be tested. At the time of writing, I’ve very new to this research area, and the research area is relatively new itself. My aim is to learn about the current existing methods, and apply those to create a new langauge for testing of sofware. Hence, introducing you to…</p>
 <h2 id="Tyzen-A-New-Specification-Language-For-Software-Verification"><a href="#Tyzen-A-New-Specification-Language-For-Software-Verification" class="headerlink" title="Tyzen - A New Specification Language For Software Verification"></a>Tyzen - A New Specification Language For Software Verification</h2><h3 id="On-Types"><a href="#On-Types" class="headerlink" title="On Types"></a>On Types</h3><p>From my current perspective of how I see things, I believe that any computer program, written using any existing high level langauge, uses <em><strong>types</strong></em> and logic built on these <em><strong>types</strong></em> to implement different algorithms. Some fundamental types already exist, like in C, there exist <code>int</code>, <code>char</code>, etc… and some are user defined types. All logic of your program is working on these <em><strong>types</strong></em>.</p>
+<p>Using a set of fundamental types, we can define new types. We usually refer to these as user-defined types. The behaviour of these new types depend on their use case and the functions provided for interacting<a href="#On-Operators"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.877ex" height="2.021ex" role="img" focusable="false" viewBox="0 -893.3 829.7 893.3"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mi"></g><g data-mml-node="TeXAtom" transform="translate(33,363) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mo"><path data-c="5B" d="M118 -250V750H255V710H158V-210H255V-250H118Z"></path></g><g data-mml-node="mn" transform="translate(278,0)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><g data-mml-node="mo" transform="translate(778,0)"><path data-c="5D" d="M22 710V750H159V-250H22V-210H119V710H22Z"></path></g></g></g></g></g></svg></mjx-container></a> with these types. For example, a type named <code>std::optional&lt;...&gt;</code> in C++ is used to store values of some pre-defined type, with a <code>bool</code> value of <em><strong>Boolean</strong></em> type that will specify whether or not any <em><strong>value</strong></em> of <code>std::optional</code> type contains a <em><strong>valid</strong></em> value or not.</p>
+<p>In the end however, when your program is being run by the computing machine, none of the high level constructs will mean anything to it. CPUs just work on memory and registers. There is no concept of linked-list, or trees or any other data structure. It’s just raw data and logic operating on the data.</p>
 <p>Form now on, whether the term “type” is emphasized or not, you must always keep the above point at the back of your head. Whenever you see the term “type”, you must assume I’m referring to it in this context.</p>
 <h3 id="On-Values"><a href="#On-Values" class="headerlink" title="On Values"></a>On Values</h3><p>If we think about it more carefully, the logic is actually working on <em><strong>values</strong></em> of these <em><strong>types</strong></em>, and there are only a finite<a href="#On-Discrete-Nature-of-Values"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.877ex" height="2.021ex" role="img" focusable="false" viewBox="0 -893.3 829.7 893.3"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mi"></g><g data-mml-node="TeXAtom" transform="translate(33,363) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mo"><path data-c="5B" d="M118 -250V750H255V710H158V-210H255V-250H118Z"></path></g><g data-mml-node="mn" transform="translate(278,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mo" transform="translate(778,0)"><path data-c="5D" d="M22 710V750H159V-250H22V-210H119V710H22Z"></path></g></g></g></g></g></svg></mjx-container></a> set of possible <em><strong>values</strong></em> for any given <em><strong>type</strong></em>. An example of this is <code>char</code> type having values from <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 500 688"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path></g></g></g></svg></mjx-container> to <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="3.394ex" height="1.579ex" role="img" focusable="false" viewBox="0 -676 1500 698"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" transform="translate(500,0)"></path><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z" transform="translate(1000,0)"></path></g></g></g></svg></mjx-container>, where each value represent a unique ASCII character. Another example will be the type <code>unsigned int</code> having values from <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 500 688"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path></g></g></g></svg></mjx-container> to <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="6.816ex" height="2.072ex" role="img" focusable="false" viewBox="0 -833.9 3012.6 915.9"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><g data-mml-node="TeXAtom" transform="translate(533,363) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mn"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" transform="translate(500,0)"></path></g></g></g><g data-mml-node="mo" transform="translate(1512.3,0)"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mn" transform="translate(2512.6,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container>. Also, a value may belong to more than one type at any time, an example of this is all values in range <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="5.154ex" height="1.692ex" role="img" focusable="false" viewBox="0 -666 2278 748"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mn" transform="translate(778,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" transform="translate(500,0)"></path><path data-c="38" d="M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z" transform="translate(1000,0)"></path></g></g></g></svg></mjx-container> to <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="3.394ex" height="1.579ex" role="img" focusable="false" viewBox="0 -676 1500 698"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" transform="translate(500,0)"></path><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z" transform="translate(1000,0)"></path></g></g></g></svg></mjx-container> being, <code>char</code>, <code>short</code>, <code>int</code>, <code>long int</code> and <code>long long int</code> at the same time.</p>
-<p>Using a set of fundamental types, we can define new types. We usually refer to these as user-defined types. The behaviour of these new types depend on their use case and the functions provided for interacting<a href="#On-Operators"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.877ex" height="2.021ex" role="img" focusable="false" viewBox="0 -893.3 829.7 893.3"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mi"></g><g data-mml-node="TeXAtom" transform="translate(33,363) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mo"><path data-c="5B" d="M118 -250V750H255V710H158V-210H255V-250H118Z"></path></g><g data-mml-node="mn" transform="translate(278,0)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><g data-mml-node="mo" transform="translate(778,0)"><path data-c="5D" d="M22 710V750H159V-250H22V-210H119V710H22Z"></path></g></g></g></g></g></svg></mjx-container></a> with these types. For example, a type named <code>std::optional&lt;...&gt;</code> in C++ is used to store values of some pre-defined type, with a <code>bool</code> value of <em><strong>Boolean</strong></em> type that will specify whether or not any <em><strong>value</strong></em> of <code>std::optional</code> type contains a <em><strong>valid</strong></em> value or not.</p>
 <h4 id="On-Discrete-Nature-of-Values"><a href="#On-Discrete-Nature-of-Values" class="headerlink" title="On Discrete Nature of Values"></a>On Discrete Nature of Values</h4><p>Why finite? Computers work in a very discrete world. Nothing is dense and <a class="link" target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Uncountable_set">uncountable <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> like real numbers and similar objects in mathematics. Therefore, even if we define any new type, they’re bound to have finite set of values, because each type it is composed of also has finite set of possible values.</p>
 <h4 id="On-Validity-of-Values"><a href="#On-Validity-of-Values" class="headerlink" title="On Validity of Values"></a>On Validity of Values</h4><p>Sometimes, value of a certain type is <em><strong>valid</strong></em> and sometimes it’s <em><strong>invalid</strong></em>. The validity matters, because performing any computing on an invalid type generates an invalid result. Invalid result means an invalid state, and an invalid state must result in a termination (generally).</p>
 <h3 id="On-Operators"><a href="#On-Operators" class="headerlink" title="On Operators"></a>On Operators</h3><p>In computing, operators are abstractions of mathematical operations on mathematical objects. Basically everything is abstracted over some mathematical object in the world of computer science. The operator can be of logical, algebraical, or some other use case (that I don’t know about yet). Now, there exists some language that allow you to perform some <a class="link" target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactical sugaring <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> to overload some operators for your user-defined types (C++), and then there are languages that don’t really care about it (C). All in all, whether you do overloading or not, you end up calling a function for these user-defined types to perform the equivalent operation on it.</p>
@@ -585,95 +811,142 @@ mjx-container[display="true"] + br {
 <div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A new Complex user-defined type.</span></span><br><span class="line"><span class="comment"> * Note that it is made of two fundamental</span></span><br><span class="line"><span class="comment"> * types.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * But this is now a new type in itself, because</span></span><br><span class="line"><span class="comment"> * the old +, -, /, *, ^, &amp;, |, etc... don't work</span></span><br><span class="line"><span class="comment"> * on this new type.</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Complex</span> {</span></span><br><span class="line">    <span class="type">double</span> x;</span><br><span class="line">    <span class="type">double</span> y;</span><br><span class="line">} Complex;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Operator defined for performing addition</span></span><br><span class="line"><span class="comment"> * over complex type</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Note how it returns pointer to Complex type.</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line">Complex* <span class="title function_">complex_add</span><span class="params">(Complex* c1, Complex* c2)</span> {</span><br><span class="line">    <span class="comment">/* compute sum of two complex numbers and */</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">Complex* <span class="title function_">complex_mul</span><span class="params">(Complex* c1, Complex* c2)</span> {</span><br><span class="line">    <span class="comment">/* define it ... */</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">Complex* <span class="title function_">complex_mul_scalar</span><span class="params">(Complex* c, <span class="type">double</span> s)</span> {</span><br><span class="line">    <span class="comment">/* define it ... */</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure></div>
 
 <p>You go through similar process when implementing data structures like stack, vector, linked-list, etc…</p>
-<h3 id="The-Testing-Phase"><a href="#The-Testing-Phase" class="headerlink" title="The Testing Phase"></a>The Testing Phase</h3><p>After you’ve defined your own types and a set of operator functions to work with these types, you’ll probably feel the urge to write tests or do some other type of testing (like fuzzing) to verify that your program works fine (or atleast looks fine). If you don’t think so, then you’re either a always on the end-user side of all the tools you use, or you just are perfect that you write correct programs always (maybe because you’re code is mostly simple and easy to debug/verify).</p>
-<p>I however take testing quite seriously, and have been spending time on learning about different ways to do it. They save a lot of time findings</p>
+<h3 id="On-Proof-Verification"><a href="#On-Proof-Verification" class="headerlink" title="On Proof & Verification"></a>On Proof &amp; Verification</h3><p>The logic built-in types and user-defined types may be wrong or buggy and hence verification (or proof) must be provided. By proof, I mean the proof of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Correctness_(computer_science)"><em><strong>code correctness</strong></em></a>, that the prover code makes sure that there won’t exist any invalid state throughout the execution of whole program. Proof of code correctness however is not always possible because of complexity of modern software, lack of formal specifications with good coverage, and many other reasons. A quick prompt to ChatGPT reveals these reasons :</p>
+<blockquote>
+<ol>
+<li><strong>Complexity:</strong> Software systems are intricate, making it difficult to cover all scenarios.</li>
+<li><strong>Incompleteness:</strong> Gaps may exist due to evolving requirements or unaccounted scenarios.</li>
+<li><strong>State Space Explosion:</strong> Managing numerous system states becomes impractical.</li>
+<li><strong>Halting Problem:</strong> Certain code behaviors are undecidable, impacting proofs.</li>
+<li><strong>Human Error:</strong> Mistakes in formal proofs or assumptions can invalidate correctness.</li>
+<li><strong>Resource Constraints:</strong> Proof efforts might outweigh benefits in time and resources.</li>
+</ol>
+<p>Efforts include testing, code reviews, formal verification for critical parts, and using languages with safety features. Balancing correctness efforts with practical development constraints is crucial.</p>
+</blockquote>
+<p>It is therefore often easier to verify the code correction for a subset of possible states. Since this does not prove that the code is correct, it is still possible that code may contain some dangerous bugs. So, for this, Tyzen’s aim is</p>
+<ul>
+<li>To provide proof of code correctness whenever possible and propagating that proof to help in proving or verifying for correctness of other parts of code.</li>
+<li>To provide verification for the code under testing, only to speed up the development process and not to help make the code completely bug free, because from my experience, good test cases help triaging the bugs faster as compared to programs without test. If debuggers are your sword, then test cases are your shield, but Tyzen must be the complete armor.</li>
+</ul>
+<p>This area of research is known as <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Formal_verification"><em><strong>formal verification</strong></em></a> which is a subset of <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Formal_methods"><em><strong>formal methods</strong></em></a>. We write specification in a specification language, and the language then attempts to either prove or verify the code.</p>
+<h2 id="Existing-Research"><a href="#Existing-Research" class="headerlink" title="Existing Research"></a>Existing Research</h2><p>There already exist some very good specification languages, and theories on program verification.</p>
+<ul>
+<li><p><strong>Formal Methods</strong>: These involve mathematically based techniques to specify, model, and reason about software systems. Techniques like model checking, theorem proving, and abstract interpretation fall under this category. Researchers often explore how formal methods can be used to verify programs based on specifications, ensuring correctness.</p>
+</li>
+<li><p><strong>Specification Languages</strong>: Different languages and formalisms exist to express program specifications. Languages like Z, VDM-SL, TLA+, and various temporal logics (such as LTL or CTL) provide ways to formally define the desired properties of a system.</p>
+</li>
+<li><p><strong>Model Checking</strong>: This method involves exhaustively checking whether a model of the program satisfies the desired properties specified in a temporal logic formula. It’s useful for smaller systems but can face scalability issues with larger programs due to the state-space explosion problem.</p>
+</li>
+<li><p><strong>Theorem Proving</strong>: It involves using mathematical logic to formally prove that a program satisfies its specification. Interactive theorem provers (like Coq, Isabelle/HOL) and automated theorem provers (such as SMT solvers) are commonly used.</p>
+</li>
+<li><p><strong>Abstract Interpretation</strong>: This technique analyzes program behaviors by approximating them with abstract models. It can be used for both program analysis and verification, aiming to prove properties of the program.</p>
+</li>
+<li><p><strong>Runtime Verification</strong>: Unlike static verification techniques, this involves checking properties of a program during execution. Specifications are monitored while the program runs, allowing for dynamic verification.</p>
+</li>
+</ul>
+<h2 id="Scope-of-This-Research-Work-Project"><a href="#Scope-of-This-Research-Work-Project" class="headerlink" title="Scope of This Research/Work/Project"></a>Scope of This Research/Work/Project</h2><ul>
+<li><strong>No New Research</strong> : This work is motivated by the needs of a software engineer, the focus won’t be on developing completely new theories, because a lot of literature already exists and I haven’t gone through all of them. All I need to do is read those books/papers/blogs/videos/podcasts… and understand how can I apply that for my specific use case. If I feel a need for extending the existing research, then I must welcome my thoughts with open arms.</li>
+<li><strong>Build For One First</strong> : I’ve never even built a compiler before, so some part of my time will be allocated to deciding the grammar of langauge and writing the compiler. This will take time, hence I cannot be too ambitious on how general I want to be. The first version of Tyzen must only focus on testing compiled programs written in C. Then extend to C++, Rust, Zig, and then generalize for all compiled programs. Then slowly move to scripted languages.</li>
+</ul>
+<blockquote>
+<p>In my experience, iterative software development involves starting with a basic version, adding features gradually, refactoring to generalize existing ones, and extending supported languages step by step before generalizing them.</p>
+</blockquote>
 
-            </div>
+        </div>
 
-            
-                <div class="post-copyright-info">
-                    <div class="article-copyright-info-container">
+        
+            <div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+                <div class="article-copyright-info-container">
     <ul>
         <li><strong>Title:</strong> Tyzen - Motivation</li>
-        <li><strong>Author:</strong> The AnvieLabs CoreTeam</li>
-        <li><strong>Created at:</strong> 2024-01-05 18:09:39</li>
+        <li><strong>Author:</strong> Siddharth Mishra</li>
+        <li><strong>Created at
+                :</strong> 2024-01-05 18:09:39</li>
         
             <li>
-                <strong>Updated at:</strong> 2024-01-05 20:51:31
+                <strong>Updated at
+                    :</strong> 2024-01-06 10:42:49
             </li>
         
         <li>
             <strong>Link:</strong> https://anvielabs.github.io/2024/01/05/Tyzen-Motivation/
         </li>
         <li>
-            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
         </li>
     </ul>
 </div>
 
-                </div>
-            
+            </div>
+        
 
-            
-                <ul class="post-tags-box">
-                    
-                        <li class="tag-item">
-                            <a href="/tags/formal-methods/">#formal-methods</a>&nbsp;
-                        </li>
-                    
-                        <li class="tag-item">
-                            <a href="/tags/formal-verification/">#formal-verification</a>&nbsp;
-                        </li>
-                    
-                        <li class="tag-item">
-                            <a href="/tags/software-testing/">#software-testing</a>&nbsp;
-                        </li>
-                    
-                        <li class="tag-item">
-                            <a href="/tags/language/">#language</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            
+        
+            <ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/formal-methods/">#formal-methods</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/formal-verification/">#formal-verification</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/software-testing/">#software-testing</a>&nbsp;
+                    </li>
+                
+                    <li class="tag-item mx-0.5">
+                        <a href="/tags/language/">#language</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
 
-            
+        
 
-            
-                <div class="article-nav">
-                    
-                    
-                        <div class="article-next">
-                            <a class="next"
-                            rel="next"
-                            href="/2023/07/15/Realizing-How-To-Write-Better-Unit-Tests/"
-                            >
-                                <span class="title flex-center">
-                                    <span class="post-nav-title-item">Realizing How To Write Better Unit Tests</span>
-                                    <span class="post-nav-item">Next posts</span>
-                                </span>
-                                <span class="right arrow-icon flex-center">
-                                    <i class="fa-solid fa-chevron-right"></i>
-                                </span>
-                            </a>
-                        </div>
-                    
-                </div>
-            
+        
+            <div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+                
+                
+                    <div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+                        <a class="next"
+                        rel="next"
+                        href="/2023/07/15/Realizing-How-To-Write-Better-Unit-Tests/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Realizing How To Write Better Unit Tests</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
 
 
-            
-                <div class="comment-container">
-                    <div class="comments-container">
-    <div id="comment-anchor"></div>
-    <div class="comment-area-title">
-        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+        
+            <div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+                <div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
     </div>
     
 
         
             
     <div id="giscus-container"></div>
-    <script data-pjax defer>
+    <script data-swup-reload-script defer>
         async function loadGiscus() {
             const giscusConfig = {
                 'src': 'https://giscus.app/client.js',
@@ -704,7 +977,7 @@ mjx-container[display="true"] + br {
                 clearTimeout(loadGiscusTimeout);
             }, 1000);
         } else {
-            window.addEventListener('DOMContentLoaded', loadGiscus);
+            document.addEventListener('DOMContentLoaded', loadGiscus);
         }
     </script>
 
@@ -714,38 +987,39 @@ mjx-container[display="true"] + br {
     
 </div>
 
-                </div>
-            
-        </div>
-
-        
-            <div class="toc-content-container">
-                <div class="post-toc-wrap">
-    <div class="post-toc">
-        <div class="toc-title">On this page</div>
-        <div class="page-title">Tyzen - Motivation</div>
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tyzen-A-New-Specification-Language-For-Software-Verification"><span class="nav-text">Tyzen - A New Specification Language For Software Verification</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Types"><span class="nav-text">On Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Values"><span class="nav-text">On Values</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Operators"><span class="nav-text">On Operators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Testing-Phase"><span class="nav-text">The Testing Phase</span></a></li></ol></li></ol>
-
-    </div>
-</div>
             </div>
         
     </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Tyzen - Motivation</div>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tyzen-A-New-Specification-Language-For-Software-Verification"><span class="nav-text">Tyzen - A New Specification Language For Software Verification</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Types"><span class="nav-text">On Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Values"><span class="nav-text">On Values</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Operators"><span class="nav-text">On Operators</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Proof-Verification"><span class="nav-text">On Proof &amp; Verification</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Existing-Research"><span class="nav-text">Existing Research</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scope-of-This-Research-Work-Project"><span class="nav-text">Scope of This Research&#x2F;Work&#x2F;Project</span></a></li></ol>
+
+    </div>
 </div>
+        </div>
+    
+</div>
+
 
 
                 
 
             </div>
-            
+
             
 
         </div>
 
         <div class="main-content-footer">
-            <footer class="footer">
-    <div class="info-container">
-        <div class="copyright-info">
+            <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
             &copy;
             
               <span>2023</span>
@@ -753,17 +1027,35 @@ mjx-container[display="true"] + br {
             
             2024&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">The AnvieLabs CoreTeam</a>
         </div>
-
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.6.0</a></span>
+        </div>
+        
         
             <div>
                 Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
             </div>
         
-
         
-
-        
-            <script async data-pjax>
+            <script data-swup-reload-script>
                 try {
                     function odometer_init() {
                     const elements = document.querySelectorAll('.odometer');
@@ -779,12 +1071,10 @@ mjx-container[display="true"] + br {
                 } catch (error) {}
             </script>
         
-
         
         
     </div>  
 </footer>
-
         </div>
     </div>
 
@@ -814,26 +1104,22 @@ mjx-container[display="true"] + br {
     <div class="right-side-tools-container">
         <div class="side-tools-container">
     <ul class="hidden-tools-list">
-        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+        <li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
             <i class="fa-regular fa-magnifying-glass-plus"></i>
         </li>
 
-        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+        <li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
             <i class="fa-regular fa-magnifying-glass-minus"></i>
         </li>
 
-        <li class="right-bottom-tools tool-expand-width flex-center">
-            <i class="fa-regular fa-expand"></i>
-        </li>
-
-        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+        <li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
             <i class="fa-regular fa-moon"></i>
         </li>
 
         <!-- rss -->
         
-            <li class="right-bottom-tools rss flex-center">
-                <a class="flex-center"
+            <li class="right-bottom-tools rss flex justify-center items-center">
+                <a class="flex justify-center items-center"
                    href="/atom.xml"
                    target="_blank"
                 >
@@ -844,17 +1130,17 @@ mjx-container[display="true"] + br {
 
         
 
-        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+        <li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
             <i class="fa-regular fa-arrow-down"></i>
         </li>
     </ul>
 
     <ul class="visible-tools-list">
-        <li class="right-bottom-tools toggle-tools-list flex-center">
+        <li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
             <i class="fa-regular fa-cog fa-spin"></i>
         </li>
         
-            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+            <li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
                 <i class="arrow-up fas fa-arrow-up"></i>
                 <span class="percent"></span>
             </li>
@@ -901,38 +1187,77 @@ mjx-container[display="true"] + br {
 
     
 
-
 </main>
 
 
+    
+<script src="/js/libs/Swup.min.js"></script>
+
+<script src="/js/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
 
 
-<script src="/js/utils.js"></script>
 
-<script src="/js/main.js"></script>
 
-<script src="/js/layouts/navbarShrink.js"></script>
 
-<script src="/js/tools/scrollTopBottom.js"></script>
 
-<script src="/js/tools/lightDarkSwitch.js"></script>
+
+<script src="/js/tools/imageViewer.js" type="module"></script>
+
+<script src="/js/utils.js" type="module"></script>
+
+<script src="/js/main.js" type="module"></script>
+
+<script src="/js/layouts/navbarShrink.js" type="module"></script>
+
+<script src="/js/tools/scrollTopBottom.js" type="module"></script>
+
+<script src="/js/tools/lightDarkSwitch.js" type="module"></script>
+
+<script src="/js/layouts/categoryList.js" type="module"></script>
 
 
 
     
-<script src="/js/tools/localSearch.js"></script>
+<script src="/js/tools/localSearch.js" type="module"></script>
 
 
 
 
     
-<script src="/js/tools/codeBlock.js"></script>
+<script src="/js/tools/codeBlock.js" type="module"></script>
 
 
 
 
     
-<script src="/js/layouts/lazyload.js"></script>
+<script src="/js/layouts/lazyload.js" type="module"></script>
 
 
 
@@ -953,7 +1278,7 @@ mjx-container[display="true"] + br {
 <script src="/js/libs/Typed.min.js"></script>
 
   
-<script src="/js/plugins/typed.js"></script>
+<script src="/js/plugins/typed.js" type="module"></script>
 
 
 
@@ -968,55 +1293,19 @@ mjx-container[display="true"] + br {
 
 
 
-<div class="post-scripts pjax">
+
+
+<div class="post-scripts" data-swup-reload-script>
     
         
-<script src="/js/tools/tocToggle.js"></script>
+<script src="/js/tools/tocToggle.js" type="module"></script>
 
-<script src="/js/libs/anime.min.js"></script>
+<script src="/js/layouts/toc.js" type="module"></script>
 
-<script src="/js/layouts/toc.js"></script>
-
-<script src="/js/plugins/tabs.js"></script>
+<script src="/js/plugins/tabs.js" type="module"></script>
 
     
 </div>
-
-
-    
-<script src="/js/libs/pjax.min.js"></script>
-
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        window.pjax = new Pjax({
-            selectors: [
-                'head title',
-                '.page-container',
-                '.pjax',
-            ],
-            history: true,
-            debug: false,
-            cacheBust: false,
-            timeout: 0,
-            analytics: false,
-            currentUrlFullReload: false,
-            scrollRestoration: false,
-            // scrollTo: true,
-        });
-
-        document.addEventListener('pjax:send', () => {
-            Global.utils.pjaxProgressBarStart();
-        });
-
-        document.addEventListener('pjax:complete', () => {
-            Global.utils.pjaxProgressBarEnd();
-            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
-            Global.refresh();
-        });
-    });
-</script>
-
-
 
 
 </body>
