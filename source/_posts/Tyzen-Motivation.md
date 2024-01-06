@@ -13,7 +13,7 @@ mathjax: true
 author: Siddharth Mishra
 ---
 
-I've started working on a new specification language for automatic test case generation and software verification. The correct specification of this langauge itself does not exist at the moment. This post and follow-up series of posts will document the train of thought followed for building a new langauge, and that to for writing specifications of programs that needs to be tested. At the time of writing, I've very new to this research area, and the research area is relatively new itself. My aim is to learn about the current existing methods, and apply those to create a new langauge for testing of sofware. Hence, introducing you to...
+I've started working on a new specification language for automatic test case generation and software verification. This post and follow-up series of posts will document the train of thought followed for building a new specification langauge, for program verification. At the time of writing, I've very new to this research area, and the research area is relatively new itself. My aim is to learn about the current existing methods, and apply those to create a new langauge for testing of sofware. Having a dissertation this semester, I'm hoping to work on a topic of my choice and hence, introducing you to...
 
 ## Tyzen - A New Specification Language For Software Verification
 
