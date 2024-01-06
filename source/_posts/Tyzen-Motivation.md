@@ -146,6 +146,8 @@ BitVector {
 }
 ```
 
+Above is a sample of how I want Tyzen to look like. `@typedef` used to define new types. There are special typedefs for references and base types. Then for testing there is the normal `@test`, post test : `@test[post]` and pre test `@test[pre]`. Constraints under `@test` will automatically be verified when Tyzen guesses that a constraint might be valid in a certain program state. Pre and post tests are executed before and after function is called. Using the `@use[...]` specifier, one can hint that the function internally must use a certain set of functions inside it's implementation. This maybe helpful in propagating constraints to the user functions.
+
 ### On Proof & Verification
 
 The logic built-in types and user-defined types may be wrong or buggy and hence verification (or proof) must be provided. By proof, I mean the proof of [___code correctness___](https://en.wikipedia.org/wiki/Correctness_(computer_science)), that the prover code makes sure that there won't exist any invalid state throughout the execution of whole program. Proof of code correctness however is not always possible because of complexity of modern software, lack of formal specifications with good coverage, and many other reasons. A quick prompt to ChatGPT reveals these reasons :
