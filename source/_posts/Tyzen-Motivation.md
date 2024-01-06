@@ -78,6 +78,74 @@ Complex* complex_mul_scalar(Complex* c, double s) {
 
 You go through similar process when implementing data structures like stack, vector, linked-list, etc...
 
+### On Specification
+
+From my current perspective, a specification will be a set of type definitions in Tyzen, that match with the type definitions in the program to be tested, and a set of constraints on the type. This set of constraint is then used to verify the validity of values in any program state. An example of this might be something like this :
+
+```elm
+@typedef[type]
+BitVector {
+    WholeNum    length;    # length can be zero
+    NaturalNum  capacity;  # capacity cannot be 0
+    Memory      data;      # memory pointer
+}
+
+@typedef[reference] {
+    BitVector* BitVectorRef;
+    
+    # will be executed always before and after function calls 
+    @test {
+        BitVectorRef != Tyz::InvalidValueOfType(BitVectorRef)
+        BitVectorRef->data != Tyz::InvalidMemory
+    }
+}
+
+@api[constructor]
+@fn {
+    bitvec_create() {
+        # allocate a new variable
+        @new[bv, BitVectorRef]
+        
+        # tests to be conducted after function call
+        @test[post] {
+            bv->data != Tyz::InvalidMemory
+            bv->length <= bv->capacity;
+        }
+        
+        # automatically return type will be deduced
+        @return[bv]
+    }
+}
+
+@api[destructor]
+@fn {
+    bitvec_destroy(bv: BitVectorRef) {
+        @test[post] {
+            bv == Tyz::InvalidValueOfType(BitVectorRef)
+            bv->data == Tyz::InvalidMemory
+        }
+    }
+}
+
+@use[bitvec_create]
+@fn {
+    bitvec_and(bv1: BitVectorRef, bv2: BitVectorRef) {
+        @new[bvres, BitVectorRef]
+        
+        # perform addition operation
+        
+        @test[post] {
+            # other tests
+            for ((b1, b2 and bres): Byte) in (bv1->data, bv2->data and bvres->data) {
+                bres == b1 & b2;
+            }
+        }
+        
+        @return bvres
+    }
+}
+```
+
 ### On Proof & Verification
 
 The logic built-in types and user-defined types may be wrong or buggy and hence verification (or proof) must be provided. By proof, I mean the proof of [___code correctness___](https://en.wikipedia.org/wiki/Correctness_(computer_science)), that the prover code makes sure that there won't exist any invalid state throughout the execution of whole program. Proof of code correctness however is not always possible because of complexity of modern software, lack of formal specifications with good coverage, and many other reasons. A quick prompt to ChatGPT reveals these reasons :
