@@ -141,7 +141,7 @@ home_banner:
   # Home banner social links
   social_links:
     # Whether to enable
-    enable: false
+    enable: true
     # Social links
     links:
       github: https://github.com/AnvieLabs  # your GitHub URL
@@ -245,7 +245,7 @@ home:
   author_label:
     enable: true # Whether to enable
     auto: false # Whether to automatically add author label, e.g. Lv1, Lv2, Lv3...
-    list: ["Lead"]
+    list: ["Founder & CEO"]
   # Code block settings
   code_block:
     copy: true # Whether to enable code block copy button
