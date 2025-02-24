@@ -333,3 +333,5 @@ There might be other ways for removing ambiguity in grammars, but this
 is the one I had to learn recently. I really suffered a lot with a poor
 grammar recently, and I don't want to make the same mistake again, while
 working on a new language.
+
+This time, the meaning of the expression is `(expr (expr0 (+ (expr1 (number (digit 1))) (expr0 (expr1 (* (expr (expr0 (expr1 (number (digit 2))))) (expr1 (number (digit 3)))))))))`
