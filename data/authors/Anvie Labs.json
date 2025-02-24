@@ -1,0 +1,11 @@
+{
+    "name": "Anvie Labs",
+    "image" : "img/anvielabs_author.png",
+    "bio": "Anvie Labs",
+    "social": [
+        { "linkedin": "https://linkedin.com/in/anvielabs" },
+        { "twitter": "https://twitter.com/anvielabs" },
+        { "github": "https://github.com/anvielabs" },
+        { "link": "https://blog.anvielabs.com" }
+    ]
+}

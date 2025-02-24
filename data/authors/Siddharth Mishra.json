@@ -1,0 +1,11 @@
+{
+    "name": "Siddharth Mishra",
+    "image" : "img/brightprogrammer.png",
+    "bio": "Founder",
+    "social": [
+        { "linkedin": "https://linkedin.com/in/brightprogrammer" },
+        { "twitter": "https://twitter.com/brightprogramer" },
+        { "github": "https://github.com/brightprogrammer" },
+        { "link": "https://brightprogrammer.in" }
+    ]
+}

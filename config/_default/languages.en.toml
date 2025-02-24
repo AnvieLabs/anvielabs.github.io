@@ -1,0 +1,26 @@
+languageCode = "en"
+languageName = "English"
+weight = 1
+title = "Anvie Labs"
+
+[params]
+  displayName = "English"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  logo = "img/anvielabs_author.png"
+  copyright = "Copyright &copy; Anvie Labs"
+  description = "Develop in public"
+
+[params.author]
+  name = "Anvie Labs"
+  email = "anvielabs@gmail.com"
+  image = "img/anvielabs_author.png"
+  headline = "Open Source Software Consultancy"
+  bio = "Learning and experimenting with things one at a time."
+  links = [
+    { x-twitter = "https://twitter.com/anvielabs" },
+    { github = "https://github.com/anvielabs" },
+    { linkedin = "https://in.linkedin.com/anvielabs" },
+    { link = "https://anvielabs.com" }
+  ]
