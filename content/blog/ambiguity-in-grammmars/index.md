@@ -224,7 +224,8 @@ In the end, we merge all these small meanings to make up a bigger meaning of the
 To make it formal, and have my own definition of _meaning_ of a sentence, I'll define _meaning_ as the 
 [inorder traversal](https://en.wikipedia.org/wiki/Tree_traversal#In-order,_LNR)
 of the parse tree generated while parsing a sentence. We can use [S-Expr](https://en.wikipedia.org/wiki/S-expression) 
-form to write down the meaning of a sentence.
+form to write down the meaning of a sentence. Why? because it clearly lays out the actions and entities involved
+in the order in which they're executed and used within the machine.
 
 As an example, S-Expr for Figure 1 will be 
 `(expr (term (+ (expr (number (digit 1))) (expr (factor (* (expr (number (digit 2))) (expr (number (digit 3)))))))))`
