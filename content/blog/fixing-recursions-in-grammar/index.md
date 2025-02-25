@@ -10,6 +10,7 @@ series: ["Formal Languages & Gramamars"]
 series_order: 4
 externalUrl: "https://brightprogrammer.in/posts/fixing-recursions-in-grammar/"
 featureimage: "https://avatars.githubusercontent.com/u/37365905?v=4"
+showComments: true
 ---
 
 This is an extenrnal article. The original post can be found [here](https://brightprogrammer.in/posts/fixing-recursions-in-grammar/) :smile:.
